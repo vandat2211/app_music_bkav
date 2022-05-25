@@ -1,4 +1,4 @@
-import 'package:app_music_bkav/const.dart';
+import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:flutter/material.dart';
 
 class customButtonWidget extends StatelessWidget {
