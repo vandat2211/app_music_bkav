@@ -23,9 +23,6 @@ class _DetailPageState extends State<DetailPage> {
                 children: <Widget>[
               customButtonWidget(
                 size: 50,
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
                 child: Icon(
                   Icons.arrow_back,
                   color: AppColors.styleColor,
@@ -38,9 +35,6 @@ class _DetailPageState extends State<DetailPage> {
               ),
               customButtonWidget(
                 size: 50,
-                onTap: () {
-
-                },
                 child: Icon(
                   Icons.menu,
                   color: AppColors.styleColor,
@@ -52,8 +46,6 @@ class _DetailPageState extends State<DetailPage> {
             image: "assets/logo.jpg",
             size: MediaQuery.of(context).size.width* .7,
             borderwidth: 5,
-            onTap: (){
-            },
           ),
           Text("Name song",style: TextStyle(
             color: AppColors.styleColor,fontSize: 32,fontWeight: FontWeight.bold,height: 2
@@ -71,9 +63,6 @@ class _DetailPageState extends State<DetailPage> {
               children: <Widget>[
                 customButtonWidget(
                   size: 60,
-                  onTap: () {
-
-                  },
                   child: Icon(
                     Icons.fast_rewind,
                     color: AppColors.styleColor,
@@ -82,9 +71,6 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 customButtonWidget(
                   size: 70,
-                  onTap: () {
-
-                  },
                   child: Icon(
                     Icons.pause,
                     color: Colors.white,
@@ -95,9 +81,6 @@ class _DetailPageState extends State<DetailPage> {
                 ),
                 customButtonWidget(
                   size: 60,
-                  onTap: () {
-
-                  },
                   child: Icon(
                     Icons.fast_forward,
                     color: AppColors.styleColor,

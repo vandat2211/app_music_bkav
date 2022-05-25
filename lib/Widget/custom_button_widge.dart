@@ -6,13 +6,11 @@ class customButtonWidget extends StatelessWidget {
   final double size;
   final String? image;
   final bool isActive;
-  final VoidCallback onTap;
   final Widget? child;
 
   customButtonWidget(
       {this.child,
-      required this.size,
-      required this.onTap,
+       this.size=50,
       this.borderwidth = 2,
       this.image,
       this.isActive = false});
@@ -36,10 +34,18 @@ class customButtonWidget extends StatelessWidget {
         BoxShadow(
           color: Colors.white54,
           blurRadius: 5,
-          offset: Offset(5, 5),
+          offset: Offset(-5, -5),
           spreadRadius: 3,
         )
       ],
+      gradient: const RadialGradient(
+        colors: [
+          AppColors.mainColor,
+          AppColors.mainColor,
+          AppColors.mainColor,
+          Colors.white,
+        ],
+      ),
     );
     if (image != null) {
       boxdecoration = boxdecoration.copyWith(
@@ -65,14 +71,7 @@ class customButtonWidget extends StatelessWidget {
       width: size,
       height: size,
       decoration: boxdecoration,
-      child: FlatButton(
-          padding: EdgeInsets.all(0),
-          onPressed: onTap,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-            Radius.circular(200),
-          )),
-          child: child ?? Container()),
+      child: child,
     );
   }
 }
