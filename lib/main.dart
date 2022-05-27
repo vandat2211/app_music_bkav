@@ -3,6 +3,7 @@ import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/Home_screen.dart';
+import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +11,8 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:audiotagger/audiotagger.dart';
 void main() => runApp(MultiBlocProvider(
   providers: [
-
     BlocProvider<BlocMusic>(create: (ctx) => BlocMusic()),
+    BlocProvider<TimerCubit>(create: (ctx) => TimerCubit()),
   ],
   child: MyApp(),
 ));
@@ -66,26 +67,27 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  isLoading
-          ? const Scaffold(
-        backgroundColor: AppColors.mainColor,
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      )
-          : HomeScreen(
-        musics: provider.musics.isEmpty
-            ? ([
-          MusicModel(
-              artworkWidget: null,
-              artist: "Not Found",
-              id: 0,
-              duration: 0,
-              path: "",
-              title: "Not Found"),
-        ])
-            : provider.musics,
-      ),
+      // home:  isLoading
+      //     ? const Scaffold(
+      //   backgroundColor: AppColors.mainColor,
+      //   body: Center(
+      //     child: CircularProgressIndicator(),
+      //   ),
+      // )
+      //     : HomeScreen(
+      //   musics: provider.musics.isEmpty
+      //       ? ([
+      //     MusicModel(
+      //         artworkWidget: null,
+      //         artist: "Not Found",
+      //         id: 0,
+      //         duration: 0,
+      //         path: "",
+      //         title: "Not Found"),
+      //   ])
+      //       : provider.musics,
+      // ),
+      home: App(),
     );
   }
 }

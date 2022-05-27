@@ -1,3 +1,4 @@
+import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/FavoriteScreen.dart';
 import 'package:app_music_bkav/screen/Home_screen.dart';
 import 'package:app_music_bkav/screen/ProfileScreen.dart';
@@ -9,6 +10,7 @@ import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+
 class App extends StatefulWidget {
   @override
   State<App> createState() => _AppState();
@@ -28,6 +30,7 @@ class _AppState extends State<App> {
     provider = BlocProvider.of<BlocMusic>(context);
     audioPlayer = AudioPlayer();
   }
+
   void _getMusicsFromStorage() async {
     Audiotagger audiotagger = Audiotagger();
     final List<MusicModel> musics = [];
@@ -52,8 +55,11 @@ class _AppState extends State<App> {
       isLoading = false;
     });
   }
+
   final tabs = [
-    HomeScreen(musics: [],),
+    HomeScreen(
+      musics: [],
+    ),
     SearchScreen(),
     FavoriteScreen(),
     ProfileScreen()
@@ -61,7 +67,28 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabs[_currentIndex],
+      body: _currentIndex == 0
+          ? (isLoading
+              ? const Scaffold(
+                  backgroundColor: AppColors.mainColor,
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : HomeScreen(
+                  musics: provider.musics.isEmpty
+                      ? ([
+                          MusicModel(
+                              artworkWidget: null,
+                              artist: "Not Found",
+                              id: 0,
+                              duration: 0,
+                              path: "",
+                              title: "Not Found"),
+                        ])
+                      : provider.musics,
+                ))
+          : tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         items: [

@@ -68,7 +68,7 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
   void _whenCompleteMusic(){
     _audioPlayer.onPlayerCompletion.listen((event) {
       if(_isOneLoopPlaying){
-        add(PlayMusic(state.musicModel.id));
+        add(PlayMusic(state.musicModel.id!));
       }else{
         add(StopMusic());
       }

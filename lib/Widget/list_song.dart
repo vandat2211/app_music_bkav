@@ -43,7 +43,7 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
             bloc: bloc,
             listener: (context, state) {
               if (bloc.audioPlayer.state == PlayerState.PLAYING) {
-                _id = state.musicModel.id;
+                _id = state.musicModel.id!;
                 _controller.forward();
               } else {
                 Future.delayed(const Duration(milliseconds: 400)).then((value) {
@@ -71,15 +71,15 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                           SetValue(bloc.musics[index]),
                         );
                         return DetailPage(
-                          // model: widget.currentPlayMusic!,
-                          // newModel: _muicIndex,
+                          model: widget.currentPlayMusic!,
+                          newModel: _muicIndex,
                         );
                       },
                     ),
                   ).then((value) {
                     setState(() {
                       if (bloc.audioPlayer.state == PlayerState.PLAYING) {
-                        _id = widget.currentPlayMusic!.id;
+                        _id = widget.currentPlayMusic!.id!;
                         _controller.forward();
                       } else {
                         _controller.reverse();
@@ -134,19 +134,19 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                           onPressed: () async {
                             // change with event
                             if (bloc.audioPlayer.state != PlayerState.PLAYING) {
-                              bloc.add(PlayMusic(_muicIndex.id));
+                              bloc.add(PlayMusic(_muicIndex.id!));
 
                               _controller.forward();
                               setState(() {
-                                _id = _muicIndex.id;
+                                _id = _muicIndex.id!;
                               });
                             } else if (bloc.audioPlayer.state ==
                                 PlayerState.PLAYING &&
                                 widget.currentPlayMusic != _muicIndex) {
-                              bloc.add(PlayMusic(_muicIndex.id));
+                              bloc.add(PlayMusic(_muicIndex.id!));
                               _controller.forward();
                               setState(() {
-                                _id = _muicIndex.id;
+                                _id = _muicIndex.id!;
                               });
                             } else {
                               _controller.reverse();

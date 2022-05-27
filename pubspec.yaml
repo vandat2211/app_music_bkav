@@ -42,7 +42,9 @@ dependencies:
   on_audio_query: ^2.6.0
   id3: ^1.0.2
   audiotagger: ^2.2.1
-
+  sqflite: ^2.0.2+1
+  path: ^1.8.1
+  permission_handler: ^9.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
