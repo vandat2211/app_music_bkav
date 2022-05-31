@@ -60,7 +60,7 @@ class _AppState extends State<App> {
     HomeScreen(
       musics: [],
     ),
-    SearchScreen(),
+    SearchScreen(musics: [],),
     FavoriteScreen(),
     ProfileScreen()
   ];
