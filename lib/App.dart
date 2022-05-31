@@ -44,7 +44,7 @@ class _AppState extends State<App> {
             path: element.data,
             title: element.title,
             duration: element.duration!,
-            artworkWidget: artWork != null ? Image.memory(artWork) : null);
+            artworkWidget:artWork);
         musics.add(music);
         await Future.delayed(
             const Duration(microseconds: 10)); // this is for complete ui

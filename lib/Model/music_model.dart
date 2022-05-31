@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 
 class MusicModel {
@@ -6,10 +8,10 @@ class MusicModel {
   final String path;
   final int duration;
   final String artist;
-  final Image? artworkWidget;
+  final Uint8List? artworkWidget;
   bool isFavorite;
   MusicModel.first({
-    this.artworkWidget,
+   this.artworkWidget,
     this.artist = "",
     this.duration = 0,
     this.id = 0,

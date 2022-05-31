@@ -33,4 +33,8 @@ class DB {
 
     return datas.map((e) => MusicModel.fromMap(e)).toList();
   }
+  Future<void> delete(int id)async{
+    final Database db=await initDB();
+    await db.delete("MYTable",where: "id=?",whereArgs: [id]);
+  }
 }

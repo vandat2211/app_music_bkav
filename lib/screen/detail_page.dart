@@ -64,7 +64,7 @@ class _DetailPageState extends State<DetailPage>
       });
       _controller.forward();
     } else if (isNowPlaying && modelState != widget.newModel) {
-      _blocMusic.add(PlayMusic(widget.newModel.id!));
+      _blocMusic.add(PlayMusic(widget.newModel.id));
       setState(() {
         _isPlaying = true;
       });
@@ -204,7 +204,7 @@ class _DetailPageState extends State<DetailPage>
                         return _musicSeekTime(context,
                             maxDuration: maxDuration);
                       }),
-                  _playButtonsAction(state.musicModel.id!),
+                  _playButtonsAction(state.musicModel.id),
                   _loopButton()
                 ],
               ),

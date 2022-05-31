@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Widget/list_button.dart';
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.mainColor,
       body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
         final bool isFirstTouchToDetail = state.musicModel.title.isEmpty;
-        final Image? imageOfMusic = state.musicModel.artworkWidget;
+        final Uint8List? imageOfMusic = state.musicModel.artworkWidget;
         final String title = state.musicModel.title;
         final String artist = state.musicModel.artist;
         final String path = state.musicModel.path;
@@ -76,13 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         isActive: isFavorit,
                         child: IconButton(
                           onPressed: () {
-                            db.insertData(MusicModel(
-                                artworkWidget: imageOfMusic,
-                                artist: artist,
-                                id: id,
-                                path: path,
-                                title: title,
-                                duration: duration));
+                        db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
                             setState(() {
                               isFavorit = !isFavorit;
                             });

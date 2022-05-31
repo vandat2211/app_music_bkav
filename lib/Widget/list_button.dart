@@ -61,7 +61,7 @@ class _ListButtonState extends State<ListButton>
       });
       _controller.forward();
     } else if (isNowPlaying && modelState != widget.newModel) {
-      _blocMusic.add(PlayMusic(widget.newModel.id!));
+      _blocMusic.add(PlayMusic(widget.newModel.id));
       setState(() {
         _isPlaying = true;
       });
@@ -77,7 +77,7 @@ class _ListButtonState extends State<ListButton>
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         IconButton(
             onPressed: () async {
-              _blocMusic.add(SkipPreviousMusic(state.musicModel.id!));
+              _blocMusic.add(SkipPreviousMusic(state.musicModel.id));
               setState(() {
                 _isPlaying = true;
               });
@@ -102,14 +102,14 @@ class _ListButtonState extends State<ListButton>
               onPressed: () async {
                 // send event to bloc to play or pause
                 if (_blocMusic.audioPlayer.state == PlayerState.COMPLETED) {
-                  _blocMusic.add(PlayMusic(state.musicModel.id!));
+                  _blocMusic.add(PlayMusic(state.musicModel.id));
 
                   setState(() {
                     _isPlaying = true;
                   });
                   _controller.forward();
                 } else if (musicModelNew != modelState) {
-                  _blocMusic.add(PlayMusic(state.musicModel.id!));
+                  _blocMusic.add(PlayMusic(state.musicModel.id));
                   modelState = musicModelNew;
 
                   setState(() {
@@ -118,7 +118,7 @@ class _ListButtonState extends State<ListButton>
                   _controller.forward();
                 } else if (_blocMusic.audioPlayer.state ==
                     PlayerState.STOPPED) {
-                  _blocMusic.add(PlayMusic(state.musicModel.id!));
+                  _blocMusic.add(PlayMusic(state.musicModel.id));
                   setState(() {
                     _isPlaying = true;
                   });
@@ -150,7 +150,7 @@ class _ListButtonState extends State<ListButton>
         ),
         IconButton(
             onPressed: () async {
-              _blocMusic.add(SkipNextMusic(state.musicModel.id!));
+              _blocMusic.add(SkipNextMusic(state.musicModel.id));
             },
             icon: Icon(Icons.skip_next)),
       ]),
