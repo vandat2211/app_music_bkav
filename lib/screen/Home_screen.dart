@@ -74,16 +74,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: <Widget>[
                       customButtonWidget(
                         borderwidth: 3,
-                        isActive: isFavorit,
+                        isActive: state.musicModel.isFavorite,
                         child: IconButton(
                           onPressed: () {
-                        db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
-                            setState(() {
-                              isFavorit = !isFavorit;
-                            });
+                        // db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
+                        //     setState(() {
+                        //       isFavorit = !isFavorit;
+                        //     });
+                            bloc.add(Favorite(state.musicModel));
                           },
-                          icon: const Icon(
-                            Icons.favorite,
+                          icon:  Icon(
+                            state.musicModel.isFavorite
+                            ?Icons.favorite
+                            :Icons.delete,
                             color: AppColors.styleColor,
                           ),
                         ),

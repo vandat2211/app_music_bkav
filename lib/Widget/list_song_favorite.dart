@@ -12,15 +12,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../resource/Color_manager.dart';
 import 'custom_button_widge.dart';
-class ListOfSong extends StatefulWidget {
-  final MusicModel? currentPlayMusic;
-  const ListOfSong({Key? key,this.currentPlayMusic}) : super(key: key);
+class ListOfSongFavorite extends StatefulWidget {
+  final List<MusicModel>? currentPlayMusic;
+  const ListOfSongFavorite({Key? key,this.currentPlayMusic}) : super(key: key);
 
   @override
-  State<ListOfSong> createState() => _ListOfSongState();
+  State<ListOfSongFavorite> createState() => _ListOfSongFavoriteState();
 }
 
-class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateMixin{
+class _ListOfSongFavoriteState extends State<ListOfSongFavorite> with SingleTickerProviderStateMixin{
   int _id = 0;
   late AnimationController _controller;
   late DB db;
@@ -101,7 +101,7 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                     });
                   } else if (bloc.audioPlayer.state ==
                       PlayerState.PLAYING &&
-                      widget.currentPlayMusic != _muicIndex) {
+                      widget.currentPlayMusic![index] != _muicIndex) {
                     bloc.add(PlayMusic(_muicIndex.id));
                     _controller.forward();
                     setState(() {
@@ -156,7 +156,7 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                               ? AnimatedIcon(
                             progress: _controller,
                             icon: AnimatedIcons.play_pause,
-                            color: _id == widget.currentPlayMusic!.id
+                            color: _id == widget.currentPlayMusic![index].id
                                 ? Colors.white
                                 : AppColors.styleColor,
                           )

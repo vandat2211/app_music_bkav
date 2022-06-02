@@ -1,14 +1,15 @@
 import 'package:app_music_bkav/App.dart';
+import 'package:app_music_bkav/Search/SearchBloc.dart';
+import 'package:app_music_bkav/Search/search_repository.dart';
 import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 void main() => runApp(MultiBlocProvider(
   providers: [
     BlocProvider<BlocMusic>(create: (ctx) => BlocMusic()),
     BlocProvider<TimerCubit>(create: (ctx) => TimerCubit()),
-
+    BlocProvider(create: (ctx)=> SearchBloc(searchRepository: SearchRepositoryImpl(),))
   ],
   child: MyApp(),
 ));

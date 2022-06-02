@@ -20,6 +20,10 @@ class SkipPreviousMusic extends BlocEvent {
 class PauseResumeMusic extends BlocEvent {}
 
 class StopMusic extends BlocEvent {}
+class Favorite extends BlocEvent{
+  final MusicModel music;
+  Favorite(this.music);
+}
 
 class SetValue extends BlocEvent {
   final MusicModel musicModel;
