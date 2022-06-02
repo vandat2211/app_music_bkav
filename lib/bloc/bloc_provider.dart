@@ -116,23 +116,5 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
       }
     });
   }
-  @override
-  Stream<BlocState> _AddFavorite(Favorite even) async*{
-    final int index=this
-        .state
-        .favorites!
-        .indexWhere((item)=> item.id==even.music.id);
-    if(index==-1){
-      final favorites=List<MusicModel>.from(this.state.favorites!);
-      favorites.add(even.music);
-      even.music.isFavorite=true;
-      yield load(state.musicModel);
-    }
-    else{
-      final favorites=List<MusicModel>.from(this.state.favorites!);
-    favorites.removeAt(index);
-    even.music.isFavorite=false;
-    yield load(state.musicModel);
-    }
-  }
+
 }

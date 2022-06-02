@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Widget/list_button.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
@@ -10,6 +12,7 @@ import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/screen/detail_page.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -72,22 +75,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      customButtonWidget(
-                        borderwidth: 3,
-                        isActive: state.musicModel.isFavorite,
-                        child: IconButton(
-                          onPressed: () {
-                        // db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
-                        //     setState(() {
-                        //       isFavorit = !isFavorit;
-                        //     });
-                            bloc.add(Favorite(state.musicModel));
-                          },
-                          icon:  Icon(
+                      // customButtonWidget(
+                      //   borderwidth: 3,
+                      //   isActive: state.musicModel.isFavorite,
+                      //   child: IconButton(
+                      //     onPressed: () {
+                      //   // db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
+                      //   //     setState(() {
+                      //   //       isFavorit = !isFavorit;
+                      //   //     });
+                      //       BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorites(state.musicModel));
+                      //     },
+                      //     icon:  Icon(
+                      //       state.musicModel.isFavorite
+                      //       ?Icons.favorite
+                      //       :Icons.delete,
+                      //       color: AppColors.styleColor,
+                      //     ),
+                      //   ),
+                      // ),
+                      CupertinoButton(
+                        padding: EdgeInsets.zero,
+                        minSize: 30,
+                        onPressed: () {
+                          BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorites(state.musicModel));
+                        },
+                        child: Container(
+                          child: Icon(
+                            //Icons.playlist_add,
                             state.musicModel.isFavorite
-                            ?Icons.favorite
-                            :Icons.delete,
-                            color: AppColors.styleColor,
+                                ? Icons.favorite
+                                : Icons.favorite,
+                            color:state.musicModel.isFavorite? Colors.red:Colors.white,
                           ),
                         ),
                       ),

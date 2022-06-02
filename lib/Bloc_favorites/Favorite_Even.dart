@@ -1,8 +1,10 @@
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
-abstract class FavoriteEvent{}
-  class Favorite extends FavoriteEvent{
-  final MusicModel music;
-  Favorite(this.music);
-  }
+@immutable
+abstract class FavoriteEvent {}
+
+class ToggleFavorites extends FavoriteEvent {
+  final MusicModel musicModel;
+  ToggleFavorites(this.musicModel);
+}

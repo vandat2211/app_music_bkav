@@ -1,3 +1,5 @@
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorites_state.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/list_song.dart';
@@ -32,13 +34,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<BlocMusic>(context);
     return Scaffold(
       backgroundColor: AppColors.mainColor,
       body: Column(
         children: [
-          BlocBuilder<BlocMusic,BlocState>(builder: (context,state){
-            return Expanded(child: ListOfSongFavorite(currentPlayMusic: state.favorites));
+          BlocBuilder<FavoriteBloc,FavoriteState>(builder: (context,state){
+            return Expanded(child: ListOfSongFavorite(currentPlayMusic: state.favoriteList));
           }),
         ],
       )
