@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorites_state.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Widget/list_button.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
@@ -39,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     db = DB();
     Permission.storage.request();
-    }
 
+  }
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlocMusic>(context);
@@ -94,22 +95,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       //     ),
                       //   ),
                       // ),
-                      CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        minSize: 30,
-                        onPressed: () {
-                          BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorites(state.musicModel));
-                        },
-                        child: Container(
-                          child: Icon(
-                            //Icons.playlist_add,
-                            state.musicModel.isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite,
-                            color:state.musicModel.isFavorite? Colors.red:Colors.white,
-                          ),
-                        ),
-                      ),
+                    CupertinoButton(
+                            padding: EdgeInsets.zero,
+                            minSize: 30,
+                            onPressed: () {
+                              BlocProvider.of<FavoriteBloc>(context).add(AddFavorites(state.musicModel));
+                            },
+                            child: Container(
+                              child: Icon(
+                                //Icons.playlist_add,
+                                state.musicModel.isFavorite
+                                    ? Icons.favorite
+                                    : Icons.favorite,
+                                color: state.musicModel.isFavorite
+                                    ? Colors.red
+                                    : Colors.white,
+                              ),
+                            ),
+                          )
+
+                      ,
                       InkWell(
                         onTap: isEmptyMusics
                             ? null
@@ -164,9 +169,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: ListButton(currentPlayMusic:state.musicModel, newModel: state.musicModel ,)
-                  ),
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: ListButton(
+                        currentPlayMusic: state.musicModel,
+                        newModel: state.musicModel,
+                      )),
                 )
               ],
             ),
@@ -189,5 +196,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }
