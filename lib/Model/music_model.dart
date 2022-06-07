@@ -11,7 +11,7 @@ class MusicModel {
   final Uint8List? artworkWidget;
   bool isFavorite;
   MusicModel.first({
-   this.artworkWidget,
+    this.artworkWidget,
     this.artist = "",
     this.duration = 0,
     this.id = 0,
@@ -28,18 +28,22 @@ class MusicModel {
     required this.duration,
     this.isFavorite = false,
   });
-  factory MusicModel.fromMap(Map<String,dynamic> json)=>
-      MusicModel(artworkWidget: json["artworkWidget"], artist: json["artist"], id: json['id'], path: json["path"], title: json["title"], duration: json['duration']);
-  Map<String,dynamic> toMap()=>{
-    "id":id,
-    "title":title,
-    "artist":artist,
-    "path":path,
-    "artworkWidget":artworkWidget,
-    "duration":duration,
-  };
+  factory MusicModel.fromMap(Map<String, dynamic> json) => MusicModel(
+      artworkWidget: json["artworkWidget"],
+      artist: json["artist"],
+      id: json['id'],
+      path: json["path"],
+      title: json["title"],
+      duration: json['duration']);
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "title": title,
+        "artist": artist,
+        "path": path,
+        "artworkWidget": artworkWidget,
+        "duration": duration,
+      };
   void favoriteMusic() {
     isFavorite = !isFavorite;
   }
-
 }

@@ -8,7 +8,9 @@ abstract class FavoriteEvent extends Equatable {
   @override
   List<Object> get props=>[];
 }
-class StartFavorite extends FavoriteEvent{}
+class StartFavorite extends FavoriteEvent{
+
+}
 class AddFavorites extends FavoriteEvent {
   final MusicModel musicModel;
   const AddFavorites(this.musicModel);

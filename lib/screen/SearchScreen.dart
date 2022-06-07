@@ -37,7 +37,16 @@ class _SearchScreenState extends State<SearchScreen> {
     final bool isEmptyMusics = bloc.musics.first.path.isEmpty;
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: () {showSearch(context: context, delegate: SongSearch(searchBloc: BlocProvider.of<SearchBloc>(context)));}, icon: Icon(Icons.search))],
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: SongSearch(
+                        searchBloc: BlocProvider.of<SearchBloc>(context)),);
+              },
+              icon: Icon(Icons.search))
+        ],
         elevation: 0,
         centerTitle: true,
         backgroundColor: Colors.lightBlue,
@@ -48,30 +57,27 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       backgroundColor: AppColors.mainColor,
-
       body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
         setState() {
           final MusicModel _music = state.musicModel;
         }
 
-        return
-            Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListOfSongSearch(currentPlayMusic: state.musicModel),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: ListButton(
-                        currentPlayMusic: state.musicModel,
-                        newModel: state.musicModel,
-                      )),
-                )
-              ],
-            );
-
+        return Column(
+          children: <Widget>[
+            Expanded(
+              child: ListOfSongSearch(currentPlayMusic: state.musicModel),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: ListButton(
+                    currentPlayMusic: state.musicModel,
+                    newModel: state.musicModel,
+                  )),
+            )
+          ],
+        );
       }),
     );
   }
@@ -96,7 +102,6 @@ class SongSearch extends SearchDelegate<List> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
-          close(context, null!);
         },
         icon: Icon(Icons.arrow_back_ios));
   }

@@ -1,6 +1,7 @@
 import 'package:app_music_bkav/App.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
+import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Search/SearchBloc.dart';
 import 'package:app_music_bkav/Search/search_repository.dart';
 import 'package:app_music_bkav/bloc/bloc_provider.dart';
@@ -13,7 +14,7 @@ void main() => runApp(MultiBlocProvider(
     BlocProvider<BlocMusic>(create: (ctx) => BlocMusic()),
 
     BlocProvider<SearchBloc>(create: (ctx)=> SearchBloc(searchRepository: SearchRepositoryImpl(),)),
-    BlocProvider<FavoriteBloc>(create: (_)=> FavoriteBloc()..add(StartFavorite())),
+    BlocProvider<FavoriteBloc>(create: (ctx)=> FavoriteBloc()..add(StartFavorite())),
   ],
   child: MyApp(),
 ));

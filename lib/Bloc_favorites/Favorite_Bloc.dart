@@ -1,23 +1,26 @@
 
 
 import 'package:app_music_bkav/Bloc_favorites/Favorite.dart';
-import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Favorite_Even.dart';
 import 'Favorites_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
-  FavoriteBloc():super(FavoriteLoading());
-  Stream<FavoriteState> mapEventToState(FavoriteEvent event)async* {
-    if (event is StartFavorite) {
-      yield* _mapStartFavoriteState();
-    } else if (event is AddFavorites) {
-      yield* _mapAddFavorite(event, state);
-    } else if (event is RemoveFavorites) {
-      yield* _mapRemoveFavorite(event, state);
-    }
+  FavoriteBloc():super(FavoriteLoading())
+  {
+    on<StartFavorite>((event, emit){
+      _mapStartFavoriteState();
+    });
+    on<AddFavorites>((event, emit) {
+      event.musicModel.isFavorite=true;
+     _mapAddFavorite(event, state);
+
+    });
+    on<RemoveFavorites>((event, emit) {
+      _mapRemoveFavorite(event, state);
+      event.musicModel.isFavorite=false;
+    });
   }
     Stream<FavoriteState> _mapStartFavoriteState()async*{
       yield FavoriteLoading();

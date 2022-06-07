@@ -1,5 +1,6 @@
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorites_state.dart';
+import 'package:app_music_bkav/Widget/list_song_favorite.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class FavoriteScreen extends StatelessWidget {
           };
           if(state is FavoriteLoaded){
             return ListView.builder(itemCount: state.favorite.music.length,itemBuilder: (context,index){
-              return ListTile(title: Text(state.favorite.music[index].title),);
+              return ListOfSongFavorite(currentPlayMusic: state.favorite.music);
             });
           }
           else return Text('ok');
