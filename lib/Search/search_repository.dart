@@ -24,7 +24,7 @@ class SearchRepositoryImpl extends SearchRepository{
             artworkWidget:artWork);
         musics.add(music);
         await Future.delayed(
-            const Duration(microseconds: 10)); // this is for complete ui
+            const Duration(milliseconds: 10)); // this is for complete ui
       }
     }
     throw UnimplementedError();

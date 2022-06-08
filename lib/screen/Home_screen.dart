@@ -11,6 +11,8 @@ import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/bloc/bloc_state.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
+import 'package:app_music_bkav/screen/FavoriteScreen.dart';
+import 'package:app_music_bkav/screen/SearchScreen.dart';
 import 'package:app_music_bkav/screen/detail_page.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     db = DB();
     Permission.storage.request();
-
   }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlocMusic>(context);
@@ -61,11 +63,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
         final bool isFirstTouchToDetail = state.musicModel.title.isEmpty;
         final Uint8List? imageOfMusic = state.musicModel.artworkWidget;
-        final String title = state.musicModel.title;
-        final String artist = state.musicModel.artist;
-        final String path = state.musicModel.path;
-        final int duration = state.musicModel.duration;
-        final int id = state.musicModel.id;
 
         return Stack(
           children: <Widget>[
@@ -95,26 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       //     ),
                       //   ),
                       // ),
-                    CupertinoButton(
-                            padding: EdgeInsets.zero,
-                            minSize: 30,
-                            onPressed: () {
-                              BlocProvider.of<FavoriteBloc>(context).add(AddFavorites(state.musicModel));
-                            },
-                            child: Container(
-                              child: Icon(
-                                //Icons.playlist_add,
-                                state.musicModel.isFavorite
-                                    ? Icons.favorite
-                                    : Icons.favorite,
-                                color: state.musicModel.isFavorite
-                                    ? Colors.red
-                                    : Colors.white,
-                              ),
-                            ),
-                          )
-
-                      ,
+                    customButtonWidget(
+                      child: IconButton(
+                        onPressed: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  FavoriteScreen()),
+                          );
+                        },
+                        icon: Icon(Icons.favorite,color: Colors.blue,),
+                      ),
+                    ),
                       InkWell(
                         onTap: isEmptyMusics
                             ? null
@@ -157,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: AppColors.styleColor,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

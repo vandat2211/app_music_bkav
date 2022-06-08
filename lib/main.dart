@@ -14,7 +14,8 @@ void main() => runApp(MultiBlocProvider(
     BlocProvider<BlocMusic>(create: (ctx) => BlocMusic()),
 
     BlocProvider<SearchBloc>(create: (ctx)=> SearchBloc(searchRepository: SearchRepositoryImpl(),)),
-    BlocProvider<FavoriteBloc>(create: (ctx)=> FavoriteBloc()..add(StartFavorite())),
+    BlocProvider<FavoriteBloc>(create: (ctx)=> FavoriteBloc()),
+
   ],
   child: MyApp(),
 ));

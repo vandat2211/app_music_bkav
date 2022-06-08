@@ -112,11 +112,11 @@ class SongSearch extends SearchDelegate<List> {
     searchBloc.add(SearchEventLoadData(query: query));
     return BlocBuilder<SearchBloc, SearchState>(
         builder: (BuildContext context, SearchState state) {
-      if (state is SearchUninitialized) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      }
+      // if (state is SearchUninitialized) {
+      //   return Center(
+      //     child: CircularProgressIndicator(),
+      //   );
+      // }
       if (state is SearchError) {
         return Center(
           child: Text('Failed'),

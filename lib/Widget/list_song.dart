@@ -1,5 +1,6 @@
 import 'dart:typed_data';
-
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
@@ -12,16 +13,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../resource/Color_manager.dart';
 import 'custom_button_widge.dart';
+
 class ListOfSong extends StatefulWidget {
   final MusicModel? currentPlayMusic;
-  const ListOfSong({Key? key,this.currentPlayMusic}) : super(key: key);
+  const ListOfSong({Key? key, this.currentPlayMusic}) : super(key: key);
 
   @override
   State<ListOfSong> createState() => _ListOfSongState();
 }
 
-class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateMixin{
+class _ListOfSongState extends State<ListOfSong>
+    with SingleTickerProviderStateMixin {
   int _id = 0;
+  late bool _isfavorite;
   late AnimationController _controller;
   late DB db;
   @override
@@ -31,11 +35,13 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
   }
+
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlocMusic>(context);
@@ -99,25 +105,26 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                     setState(() {
                       _id = _muicIndex.id;
                     });
-                  } else if (bloc.audioPlayer.state ==
-                      PlayerState.PLAYING &&
+                  } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
                       widget.currentPlayMusic != _muicIndex) {
                     bloc.add(PlayMusic(_muicIndex.id));
                     _controller.forward();
                     setState(() {
                       _id = _muicIndex.id;
                     });
-                  // } else {
-                  //   _controller.reverse();
-                  //   bloc.add(PauseResumeMusic());
-                  //   Future.delayed(_controller.duration!)
-                  //       .then((value) {
-                  //     setState(() {
-                  //       _id = 0;
-                  //     });
-                  //   });
-                  // }
-                }},
+                    // } else {
+                    //   _controller.reverse();
+                    //   bloc.add(PauseResumeMusic());
+                    //   Future.delayed(_controller.duration!)
+                    //       .then((value) {
+                    //     setState(() {
+                    //       _id = 0;
+                    //     });
+                    //   });
+                    // }
+                    // Click item pause/play
+                  }
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -132,9 +139,9 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                              fontSize: 19,
-                              fontWeight : FontWeight.w600,
-                              color:AppColors.styleColor,
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.styleColor,
                           ),
                         ),
                         Text(
@@ -143,9 +150,8 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 16,
-                              fontWeight : FontWeight.w400,
-                              color:AppColors.styleColor
-                          ),
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.styleColor),
                         ),
                       ],
                     ),
@@ -154,41 +160,24 @@ class _ListOfSongState extends State<ListOfSong> with SingleTickerProviderStateM
                       child: IconButton(
                           icon: _id == _muicIndex.id
                               ? AnimatedIcon(
-                            progress: _controller,
-                            icon: AnimatedIcons.play_pause,
-                            color: _id == widget.currentPlayMusic!.id
-                                ? Colors.white
-                                : AppColors.styleColor,
-                          )
-                              : const Icon(Icons.play_arrow),
+                                  progress: _controller,
+                                  icon: AnimatedIcons.play_pause,
+                                  color: _id == widget.currentPlayMusic!.id
+                                      ? Colors.white
+                                      : AppColors.styleColor,
+                                )
+                              : Icon(Icons.favorite,
+                                  color: _muicIndex.isFavorite
+                                      ? Colors.red
+                                      : Colors.white),
                           onPressed: () async {
-                            // change with event
-                            // if (bloc.audioPlayer.state != PlayerState.PLAYING) {
-                            //   bloc.add(PlayMusic(_muicIndex.id));
-                            //
-                            //   _controller.forward();
-                            //   setState(() {
-                            //     _id = _muicIndex.id;
-                            //   });
-                            // } else if (bloc.audioPlayer.state ==
-                            //     PlayerState.PLAYING &&
-                            //     widget.currentPlayMusic != _muicIndex) {
-                            //   bloc.add(PlayMusic(_muicIndex.id));
-                            //   _controller.forward();
-                            //   setState(() {
-                            //     _id = _muicIndex.id;
-                            //   });
-                            // } else {
-                            //   _controller.reverse();
-                            //   bloc.add(PauseResumeMusic());
-                            //   Future.delayed(_controller.duration!)
-                            //       .then((value) {
-                            //     setState(() {
-                            //       _id = 0;
-                            //     });
-                            //   });
-                            // }
-                            // db.insertData(MusicModel(artworkWidget: _muicIndex.artworkWidget, artist: _muicIndex.artist, id: _muicIndex.id, path: _muicIndex.path, title: _muicIndex.title, duration: _muicIndex.duration));
+                            _muicIndex.isFavorite ? BlocProvider.of<FavoriteBloc>(context)
+                                .add(RemoveFavorites(_muicIndex))
+                           : BlocProvider.of<FavoriteBloc>(context)
+                                .add(AddFavorites(_muicIndex));
+                            setState(() {
+
+                            });
                           }),
                     ),
                   ],

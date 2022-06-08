@@ -1,22 +1,14 @@
-import 'package:app_music_bkav/Bloc_favorites/Favorite.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-abstract class FavoriteState extends Equatable {
-  const FavoriteState();
+ class FavoriteState extends Equatable {
+  final List<MusicModel> music;
+  const FavoriteState({
+    this.music=const<MusicModel>[]
+});
 
   @override
-  List<Object> get props=>[];
+  List<Object> get props=>[music];
 }
- class FavoriteLoading extends FavoriteState{}
- class FavoriteLoaded extends FavoriteState{
-  final Favorite favorite;
-  const FavoriteLoaded({this.favorite=const Favorite()});
-
-  @override
-  List<Object> get props=>[favorite];
- }
- class FavoriteError extends FavoriteState{}
-
 
