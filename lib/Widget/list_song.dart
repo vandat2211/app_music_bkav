@@ -10,7 +10,7 @@ import 'package:app_music_bkav/screen/detail_page.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../resource/Color_manager.dart';
 import 'custom_button_widge.dart';
 
@@ -21,11 +21,10 @@ class ListOfSong extends StatefulWidget {
   @override
   State<ListOfSong> createState() => _ListOfSongState();
 }
-
 class _ListOfSongState extends State<ListOfSong>
     with SingleTickerProviderStateMixin {
+  late bool isSwitched;
   int _id = 0;
-  late bool _isfavorite;
   late AnimationController _controller;
   late DB db;
   @override
@@ -35,7 +34,6 @@ class _ListOfSongState extends State<ListOfSong>
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -171,13 +169,15 @@ class _ListOfSongState extends State<ListOfSong>
                                       ? Colors.red
                                       : Colors.white),
                           onPressed: () async {
-                            _muicIndex.isFavorite ? BlocProvider.of<FavoriteBloc>(context)
-                                .add(RemoveFavorites(_muicIndex))
-                           : BlocProvider.of<FavoriteBloc>(context)
-                                .add(AddFavorites(_muicIndex));
-                            setState(() {
-
-                            });
+                            _muicIndex.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
+                                .add(RemoveFavorites(_muicIndex)),
+                              // db.delete(_muicIndex.id)
+                            }
+                           : {BlocProvider.of<FavoriteBloc>(context)
+                                .add(AddFavorites(_muicIndex)),
+                            // db.insertData(_muicIndex)
+                            };
+                            setState((){});
                           }),
                     ),
                   ],

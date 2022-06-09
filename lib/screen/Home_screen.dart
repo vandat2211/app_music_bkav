@@ -73,25 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      // customButtonWidget(
-                      //   borderwidth: 3,
-                      //   isActive: state.musicModel.isFavorite,
-                      //   child: IconButton(
-                      //     onPressed: () {
-                      //   // db.insertData(MusicModel(artworkWidget: imageOfMusic, artist: artist, id: id, path: path, title: title, duration: duration));
-                      //   //     setState(() {
-                      //   //       isFavorit = !isFavorit;
-                      //   //     });
-                      //       BlocProvider.of<FavoriteBloc>(context).add(ToggleFavorites(state.musicModel));
-                      //     },
-                      //     icon:  Icon(
-                      //       state.musicModel.isFavorite
-                      //       ?Icons.favorite
-                      //       :Icons.delete,
-                      //       color: AppColors.styleColor,
-                      //     ),
-                      //   ),
-                      // ),
                     customButtonWidget(
                       child: IconButton(
                         onPressed: (){
@@ -184,4 +165,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 }

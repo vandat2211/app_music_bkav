@@ -54,6 +54,7 @@ class DB {
           artist TEXT,
           path TEXT,
           duration INTEGER,
+          isFavorite NUMERIC,
           artworkWidget BLOB
           )
           """);

@@ -7,7 +7,8 @@ abstract class SearchEvent extends Equatable {
 class SearchEventLoadData extends SearchEvent{
   final String query;
   SearchEventLoadData({required this.query});
-
+  @override
+  List<Object> get props => [query];
 }
 
 

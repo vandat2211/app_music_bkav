@@ -12,11 +12,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<SearchEventLoadData>(_mapEventToState);
   }
   SearchRepository searchRepository;
-  void _mapEventToState(SearchEventLoadData event,Emitter<SearchState> emit) {
-    final state=this.state;
-    List<MusicModel> song=searchRepository.getSong(event.query) as List<MusicModel>;
+  void _mapEventToState(SearchEventLoadData event,Emitter<SearchState> emit) async{
+    List<MusicModel> song=await searchRepository.getSong(event.query);
     emit(SearchLoad(song: song),);
-
 
   }
 

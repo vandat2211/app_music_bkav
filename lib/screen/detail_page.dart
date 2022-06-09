@@ -1,3 +1,5 @@
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/image_music_shower.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
@@ -24,6 +26,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage>
     with SingleTickerProviderStateMixin {
+  int _id = 0;
   late TimerCubit _timerCubit;
   late AnimationController _controller;
   late MusicModel modelState;
@@ -81,6 +84,7 @@ class _DetailPageState extends State<DetailPage>
           builder: (context, contrains) {
             return BlocConsumer<BlocMusic, BlocState>(
               listener: ((context, stateBlocMusic) {
+                _id = stateBlocMusic.musicModel.id;
                 maxDuration = stateBlocMusic.musicModel.duration;
               }),
               builder: (c, state) => Column(
@@ -110,16 +114,22 @@ class _DetailPageState extends State<DetailPage>
                           // style: getTitileStyle(fontWeight: FontWeight.w300),
                         ),
                         customButtonWidget(
-                          isActive: musicModelNew.isFavorite,
                           child: IconButton(
                             onPressed: () {
-                              musicModelNew.favoriteMusic();
-                              setState(() {});
-                            }, // I wll Upadate
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: AppColors.styleColor,
-                            ),
+                              state.musicModel.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
+                                  .add(RemoveFavorites( state.musicModel)),
+                                // db.delete(_muicIndex.id)
+                              }
+                                  : {BlocProvider.of<FavoriteBloc>(context)
+                                  .add(AddFavorites( state.musicModel)),
+                                // db.insertData(_muicIndex)
+                              };
+                              setState((){});
+                            },
+                            icon: Icon(Icons.favorite,
+                                color: state.musicModel.isFavorite
+                                    ? Colors.red
+                                    : Colors.white),
                           ),
                         ),
                       ],

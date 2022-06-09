@@ -1,4 +1,5 @@
 
+import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +8,7 @@ import 'Favorite_Even.dart';
 import 'Favorites_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
+  late DB db;
   FavoriteBloc():super(const FavoriteState())
   {
       on<AddFavorites>(_mapAddFavorite);

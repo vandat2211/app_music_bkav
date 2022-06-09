@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/image_music_shower.dart';
@@ -178,35 +180,20 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
                                 ? Colors.white
                                 : AppColors.styleColor,
                           )
-                              : const Icon(Icons.favorite),
+                              : Icon(Icons.favorite,
+                              color: _muicIndex.isFavorite
+                                  ? Colors.red
+                                  : Colors.white),
                           onPressed: () async {
-                            // change with event
-                            // if (bloc.audioPlayer.state != PlayerState.PLAYING) {
-                            //   bloc.add(PlayMusic(_muicIndex.id));
-                            //
-                            //   _controller.forward();
-                            //   setState(() {
-                            //     _id = _muicIndex.id;
-                            //   });
-                            // } else if (bloc.audioPlayer.state ==
-                            //     PlayerState.PLAYING &&
-                            //     widget.currentPlayMusic != _muicIndex) {
-                            //   bloc.add(PlayMusic(_muicIndex.id));
-                            //   _controller.forward();
-                            //   setState(() {
-                            //     _id = _muicIndex.id;
-                            //   });
-                            // } else {
-                            //   _controller.reverse();
-                            //   bloc.add(PauseResumeMusic());
-                            //   Future.delayed(_controller.duration!)
-                            //       .then((value) {
-                            //     setState(() {
-                            //       _id = 0;
-                            //     });
-                            //   });
-                            // }
-                            db.insertData(MusicModel(artworkWidget: _muicIndex.artworkWidget, artist: _muicIndex.artist, id: _muicIndex.id, path: _muicIndex.path, title: _muicIndex.title, duration: _muicIndex.duration));
+                            _muicIndex.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
+                                .add(RemoveFavorites(_muicIndex)),
+                              // db.delete(_muicIndex.id)
+                            }
+                                : {BlocProvider.of<FavoriteBloc>(context)
+                                .add(AddFavorites(_muicIndex)),
+                              // db.insertData(_muicIndex)
+                            };
+                            setState((){});
                           }),
                     ),
                   ],
