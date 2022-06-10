@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
@@ -131,9 +132,9 @@ class _ListOfSongState extends State<ListOfSong>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _muicIndex.title.length < 50
+                          _muicIndex.title.length < 40
                               ? _muicIndex.title
-                              : _muicIndex.title.substring(50),
+                              : _muicIndex.title.substring(10),
                           overflow: TextOverflow.fade,
                           textAlign: TextAlign.start,
                           style: TextStyle(
@@ -169,7 +170,8 @@ class _ListOfSongState extends State<ListOfSong>
                                       ? Colors.red
                                       : Colors.white),
                           onPressed: () async {
-                            _muicIndex.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
+                            _muicIndex.isFavorite ? {
+                              BlocProvider.of<FavoriteBloc>(context)
                                 .add(RemoveFavorites(_muicIndex)),
                               // db.delete(_muicIndex.id)
                             }

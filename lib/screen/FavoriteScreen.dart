@@ -3,6 +3,7 @@ import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorites_state.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
+import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/Widget/image_music_shower.dart';
 import 'package:app_music_bkav/Widget/list_song.dart';
 import 'package:app_music_bkav/Widget/list_song_search.dart';
@@ -25,23 +26,16 @@ class FavoriteScreen extends StatefulWidget {
 }
 
 class _FavoriteScreenState extends State<FavoriteScreen> {
-  late DB db;
   int _id = 0;
-  List<MusicModel> datas = [];
   @override
   void initState() {
     super.initState();
-    db = DB();
-    getData2();
-  }
-
-  void getData2() async {
-    datas = await db.getData();
   }
 
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlocMusic>(context);
+    final bloc1 = BlocProvider.of<FavoriteBloc>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -62,70 +56,102 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             )),
       ),
       backgroundColor: AppColors.mainColor,
-      body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
-        return ListView.builder(
-            itemCount: state.music.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                  title: Text('${state.music[index].title}'),
-                  trailing: IconButton(
-                    onPressed: () {
-                      BlocProvider.of<FavoriteBloc>(context)
-                          .add(RemoveFavorites(state.music[index]));
-                    },
-                    icon: Icon(Icons.delete),
-                  ),
-                  leading: ImageMusicShow(
-                    imageOfMusic: state.music[index].artworkWidget,
-                    size: 50,
-                  ),
-                  subtitle: Text('${state.music[index].artist}'),
-                  onTap: () {
-                    if (bloc.audioPlayer.state != PlayerState.PLAYING) {
-                      bloc.add(PlayMusic(state.music[index].id));
+      // body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
+      //   return ListView.builder(
+      //       itemCount: state.music.length,
+      //       itemBuilder: (context, index) {
+      //         return ListTile(
+      //             title: Text('${state.music[index].title}'),
+      //             trailing: IconButton(
+      //               onPressed: () {
+      //                 BlocProvider.of<FavoriteBloc>(context)
+      //                     .add(RemoveFavorites(state.music[index]));
+      //               },
+      //               icon: Icon(Icons.delete),
+      //             ),
+      //             leading: ImageMusicShow(
+      //               imageOfMusic: state.music[index].artworkWidget,
+      //               size: 50,
+      //             ),
+      //             subtitle: Text('${state.music[index].artist}'),
+      //             onTap: () {
+      //               if (bloc.audioPlayer.state != PlayerState.PLAYING) {
+      //                 bloc.add(PlayMusic(state.music[index].id));
+      //
+      //                 setState(() {
+      //                   _id = state.music[index].id;
+      //                 });
+      //               } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
+      //                   widget.currentPlayMusic != state.music[index]) {
+      //                 bloc.add(PlayMusic(state.music[index].id));
+      //                 setState(() {
+      //                   _id = state.music[index].id;
+      //                 });
+      //               };
+      //               Navigator.of(context).push(
+      //                 MaterialPageRoute(builder: (c) {
+      //                   bloc.add(SetValue(state.music[index]));
+      //                   return DetailPage(
+      //                     model: state.music[index],
+      //                     newModel: state.music[index],
+      //                   );
+      //                 }),
+      //               );
+      //               setState((){});
+      //             });
+      //       });
+      // }),
 
-                      setState(() {
-                        _id = state.music[index].id;
-                      });
-                    } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
-                        widget.currentPlayMusic != state.music[index]) {
-                      bloc.add(PlayMusic(state.music[index].id));
-                      setState(() {
-                        _id = state.music[index].id;
-                      });
-                    };
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (c) {
-                        bloc.add(SetValue(state.music[index]));
-                        return DetailPage(
-                          model: state.music[index],
-                          newModel: state.music[index],
-                        );
-                      }),
-                    );
-                    setState((){});
-                  });
-            });
-      }),
-      //   body: ListView.builder(
-      //     itemBuilder: (context,index)=>ListTile(
-      // leading: ImageMusicShow(
-      //             imageOfMusic: datas[index].artworkWidget,
-      //             size: 50,
-      //           ),
-      //       title: Text(datas[index].title),
-      //       subtitle: Text(datas[index].artist),
-      // trailing: IconButton(
-      //             onPressed: () {
-      //               setState(() {
-      //                 db.delete(datas[index].id);
-      //               });
-      //             },
-      //             icon: Icon(Icons.delete),
-      //           ),
-      //     ),
-      //     itemCount: datas.length,
-      //   ),
+      body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state){
+        return ListView.builder(
+          itemBuilder: (context, index) => ListTile(
+            leading: ImageMusicShow(
+              imageOfMusic: bloc1.datas[index].artworkWidget,
+              size: 50,
+            ),
+            title: Text(bloc1.datas[index].title),
+            subtitle: Text(bloc1.datas[index].artist),
+            trailing: IconButton(
+              onPressed: () {
+                setState(() {
+                  BlocProvider.of<FavoriteBloc>(context)
+                      .add(RemoveFavorites(bloc.musics[index]));
+                });
+              },
+              icon: Icon(Icons.delete),
+            ),
+            onTap: () {
+              if (bloc.audioPlayer.state != PlayerState.PLAYING) {
+                bloc.add(PlayMusic(bloc1.datas[index].id));
+
+                setState(() {
+                  _id = bloc1.datas[index].id;
+                });
+              } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
+                  widget.currentPlayMusic != bloc1.datas[index]) {
+                bloc.add(PlayMusic(bloc1.datas[index].id));
+                setState(() {
+                  _id = bloc1.datas[index].id;
+                });
+              }
+              ;
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (c) {
+                  bloc.add(SetValue(bloc1.datas[index]));
+                  return DetailPage(
+                    model: bloc1.datas[index],
+                    newModel: bloc1.datas[index],
+                  );
+                }),
+              );
+              setState(() {});
+            },
+          ),
+          itemCount:bloc1.datas.length,
+        );
+      }
+
+      ),
     );
   }
 }

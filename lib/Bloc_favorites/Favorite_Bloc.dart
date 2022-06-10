@@ -9,23 +9,28 @@ import 'Favorites_state.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   late DB db;
+  List<MusicModel> datas = [];
   FavoriteBloc():super(const FavoriteState())
   {
+      db=DB();
       on<AddFavorites>(_mapAddFavorite);
       on<RemoveFavorites>(_mapRemove);
-
   }
 
-    void _mapAddFavorite(AddFavorites event,Emitter<FavoriteState> emit){
+    void _mapAddFavorite(AddFavorites event,Emitter<FavoriteState> emit)async{
+      event.musicModel.isFavorite=true;
     final state=this.state;
-    event.musicModel.isFavorite=true;
-    emit(FavoriteState(music: List.from(state.music)..add(event.musicModel),));
+    // emit(FavoriteState(music: List.from(state.music)..add(event.musicModel),));
+      db.insertData(event.musicModel);
+      datas = await db.getData();
     }
-  void _mapRemove(RemoveFavorites event,Emitter<FavoriteState> emit){
-    final state=this.state;
+  void _mapRemove(RemoveFavorites event,Emitter<FavoriteState> emit)async{
     event.musicModel.isFavorite=false;
-    emit(FavoriteState(music: List.from(state.music)..remove(event.musicModel),));
+    await db.delete(event.musicModel.id);
+    datas = await db.getData();
+    final state=this.state;
+    // emit(FavoriteState(music: List.from(state.music)..remove(event.musicModel),));
+
+
   }
-
-
   }
