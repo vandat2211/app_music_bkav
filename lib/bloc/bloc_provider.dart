@@ -9,6 +9,7 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
   final AudioPlayer _audioPlayer=AudioPlayer(playerId: "Base");
 
   bool _isOneLoopPlaying = false;
+  bool _isOneshuffle = false;
   set getListOfMusicModel(List<MusicModel> musics) {
     _model = musics;
   }
@@ -65,6 +66,12 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
   bool get isOneLoopPlaying {
     return _isOneLoopPlaying;
   }
+  set isOneshuffleSet(bool isOneshuffleArg) {
+    _isOneshuffle = isOneshuffleArg;
+  }
+  bool get isOneshuffle {
+    return _isOneshuffle;
+  }
   void _whenCompleteMusic(){
     _audioPlayer.onPlayerCompletion.listen((event) {
       if(_isOneLoopPlaying){
@@ -74,6 +81,7 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
       }
     });
   }
+
   BlocMusic():super(BlocState(MusicModel.first())){
     on<BlocEvent>((event,emit) async{
       if (event is SkipNextMusic) {

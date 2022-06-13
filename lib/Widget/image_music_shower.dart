@@ -2,14 +2,17 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'custom_button_widge.dart';
+
 class ImageMusicShow extends StatelessWidget {
   const ImageMusicShow({
     Key? key,
     required this.imageOfMusic,
     required this.size,
+    required this.borderRadius,
   }) : super(key: key);
   final Uint8List? imageOfMusic;
   final double size;
+  final BorderRadius borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +22,15 @@ class ImageMusicShow extends StatelessWidget {
         height: size,
         width: size,
         child: imageOfMusic == null
-            ?  customButtonWidget(
-          size: 150,
-          borderwidth: 5,
-          image:"assets/logo.jpg",
-        )
+            ? customButtonWidget(
+                size: 150,
+                borderwidth: 5,
+                image: "assets/logo.jpg",
+              )
             : ClipRRect(
-          child: Image.memory(imageOfMusic!),
-          borderRadius: BorderRadius.circular(50),
-        ),
+                child: Image.memory(imageOfMusic!),
+                borderRadius: borderRadius,
+              ),
       ),
     );
   }

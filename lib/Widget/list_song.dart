@@ -123,6 +123,7 @@ class _ListOfSongState extends State<ListOfSong>
                     // }
                     // Click item pause/play
                   }
+
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

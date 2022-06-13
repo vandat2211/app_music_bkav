@@ -6,6 +6,7 @@ import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorites_state.dart';
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Widget/list_button.dart';
+import 'package:app_music_bkav/Widget/list_song_search.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
 import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/bloc/bloc_state.dart';
@@ -49,17 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final bloc = BlocProvider.of<BlocMusic>(context);
     final bool isEmptyMusics = bloc.musics.first.path.isEmpty;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: AppColors.mainColor,
-        title: Text(
-          "Music",
-          style: TextStyle(
-              color: AppColors.styleColor, fontWeight: FontWeight.bold),
-        ),
-      ),
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: Colors.white,
       body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
         final bool isFirstTouchToDetail = state.musicModel.title.isEmpty;
         final Uint8List? imageOfMusic = state.musicModel.artworkWidget;
@@ -68,72 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                    customButtonWidget(
-                      child: IconButton(
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  FavoriteScreen()),
-                          );
-                        },
-                        icon: Icon(Icons.favorite,color: Colors.blue,),
-                      ),
-                    ),
-                      InkWell(
-                        onTap: isEmptyMusics
-                            ? null
-                            : () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (c) {
-                                    bloc.add(SetValue(isFirstTouchToDetail
-                                        ? bloc.musics[0]
-                                        : state.musicModel));
-                                    return DetailPage(
-                                      model: isFirstTouchToDetail
-                                          ? bloc.musics[0]
-                                          : state.musicModel,
-                                      newModel: isFirstTouchToDetail
-                                          ? bloc.musics[0]
-                                          : state.musicModel,
-                                    );
-                                  }),
-                                );
-                              },
-                        child: ImageMusicShow(
-                          imageOfMusic: imageOfMusic,
-                          size: 150,
-                        ),
-                      ),
-                      customButtonWidget(
-                        child: IconButton(
-                          onPressed: () async {
-                            setState(() {
-                              isMuteVolume = !isMuteVolume;
-                            });
-                            if (isMuteVolume) {
-                              await bloc.audioPlayer.setVolume(0);
-                            } else {
-                              await bloc.audioPlayer.setVolume(1);
-                            }
-                          },
-                          icon: Icon(
-                            isMuteVolume ? Icons.volume_mute : Icons.volume_up,
-                            color: AppColors.styleColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: isEmptyMusics
                       ? _notFoundMusic()
-                      : ListOfSong(currentPlayMusic: state.musicModel),
+                      : ListOfSongSearch(currentPlayMusic: state.musicModel),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -165,5 +94,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

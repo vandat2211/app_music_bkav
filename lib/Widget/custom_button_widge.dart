@@ -10,7 +10,7 @@ class customButtonWidget extends StatelessWidget {
 
   customButtonWidget(
       {this.child,
-       this.size=50,
+      this.size = 50,
       this.borderwidth = 2,
       this.image,
       this.isActive = false});

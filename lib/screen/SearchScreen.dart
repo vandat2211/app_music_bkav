@@ -41,9 +41,10 @@ class _SearchScreenState extends State<SearchScreen> {
           IconButton(
               onPressed: () {
                 showSearch(
-                    context: context,
-                    delegate: SongSearch(
-                        searchBloc: BlocProvider.of<SearchBloc>(context)),);
+                  context: context,
+                  delegate: SongSearch(
+                      searchBloc: BlocProvider.of<SearchBloc>(context)),
+                );
               },
               icon: Icon(Icons.search))
         ],
@@ -56,7 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
               color: AppColors.styleColor, fontWeight: FontWeight.bold),
         ),
       ),
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: Colors.white,
       body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
         setState() {
           final MusicModel _music = state.musicModel;
@@ -102,12 +103,14 @@ class SongSearch extends SearchDelegate<List> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
+          Navigator.pop(context);
         },
         icon: Icon(Icons.arrow_back_ios));
   }
 
   @override
   Widget buildResults(BuildContext context) {
+    final bloc = BlocProvider.of<BlocMusic>(context);
     querystring = query;
     searchBloc.add(SearchEventLoadData(query: query));
     return BlocBuilder<SearchBloc, SearchState>(
@@ -130,17 +133,14 @@ class SongSearch extends SearchDelegate<List> {
         }
         return ListView.builder(
             itemBuilder: (context, index) {
-              return Container(
-                height: 90,
-                width: 100,
-                child: Column(
-                  children: [
-                    ImageMusicShow(
-                        imageOfMusic: state.song[index].artworkWidget,
-                        size: 50),
-                    Text(state.song[index].title),
-                  ],
+              return ListTile(
+                leading: ImageMusicShow(
+                  imageOfMusic: state.song[index].artworkWidget,
+                  size: 50,
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                title: Text(state.song[index].title),
+                subtitle: Text(state.song[index].artist),
               );
             },
             itemCount: state.song.length);

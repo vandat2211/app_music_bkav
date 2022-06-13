@@ -78,7 +78,7 @@ class _DetailPageState extends State<DetailPage>
       musicModelNew = widget.newModel;
     }
     return Scaffold(
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, contrains) {
@@ -113,25 +113,25 @@ class _DetailPageState extends State<DetailPage>
                               color: AppColors.styleColor),
                           // style: getTitileStyle(fontWeight: FontWeight.w300),
                         ),
-                        customButtonWidget(
-                          child: IconButton(
-                            onPressed: () {
-                              state.musicModel.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
-                                  .add(RemoveFavorites( state.musicModel)),
-                                // db.delete(_muicIndex.id)
-                              }
-                                  : {BlocProvider.of<FavoriteBloc>(context)
-                                  .add(AddFavorites( state.musicModel)),
-                                // db.insertData(_muicIndex)
-                              };
-                              setState((){});
-                            },
-                            icon: Icon(Icons.favorite,
-                                color: state.musicModel.isFavorite
-                                    ? Colors.red
-                                    : Colors.white),
-                          ),
-                        ),
+                        IconButton(
+                            icon: state.musicModel.isFavorite
+                                ? Icon(Icons.favorite, color: Colors.red)
+                                : Icon(Icons.favorite_border),
+                            onPressed: () async {
+                              state.musicModel.isFavorite
+                                  ? {
+                                      BlocProvider.of<FavoriteBloc>(context)
+                                          .add(RemoveFavorites(
+                                              state.musicModel)),
+                                      // db.delete(_muicIndex.id)
+                                    }
+                                  : {
+                                      BlocProvider.of<FavoriteBloc>(context)
+                                          .add(AddFavorites(state.musicModel)),
+                                      // db.insertData(_muicIndex)
+                                    };
+                              setState(() {});
+                            }),
                       ],
                     ),
                   ),
@@ -144,6 +144,7 @@ class _DetailPageState extends State<DetailPage>
                     child: ImageMusicShow(
                       imageOfMusic: state.musicModel.artworkWidget,
                       size: 230,
+                      borderRadius: BorderRadius.circular(150),
                     ),
                   ),
                   SizedBox(
@@ -191,8 +192,8 @@ class _DetailPageState extends State<DetailPage>
                                 "${_duration.inMinutes > 9 ? _duration.inMinutes : '0' + _duration.inMinutes.toString()}:${_duration.inSeconds % 60 > 9 ? _duration.inSeconds % 60 : '0' + (_duration.inSeconds % 60).toString()}",
                                 style: TextStyle(
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.styleColor),
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
                               ),
                             );
                           }),
@@ -200,8 +201,8 @@ class _DetailPageState extends State<DetailPage>
                         "${state.musicModel.duration ~/ 60000 > 9 ? state.musicModel.duration ~/ 60000 : '0' + (state.musicModel.duration ~/ 60000).toString()}:${(state.musicModel.duration ~/ 1000) % 60 > 9 ? (state.musicModel.duration ~/ 1000) % 60 : '0' + (state.musicModel.duration ~/ 1000 % 60).toString()}",
                         style: TextStyle(
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.styleColor),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
                       SizedBox(
                         width: contrains.maxWidth * 0.05,
@@ -215,7 +216,6 @@ class _DetailPageState extends State<DetailPage>
                             maxDuration: maxDuration);
                       }),
                   _playButtonsAction(state.musicModel.id),
-                  _loopButton()
                 ],
               ),
             );
@@ -320,28 +320,22 @@ class _DetailPageState extends State<DetailPage>
               icon: const Icon(Icons.skip_next),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Padding _loopButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 0),
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: IconButton(
-          onPressed: () {
-            _blocMusic.isOneLoopPlayingSet = !_blocMusic.isOneLoopPlaying;
-            setState(() {});
-          },
-          icon: Icon(
-            Icons.loop,
-            color: _blocMusic.isOneLoopPlaying
-                ? AppColors.darkBlue
-                : AppColors.styleColor,
+          customButtonWidget(
+            size: 70,
+            child: IconButton(
+              onPressed: () {
+                _blocMusic.isOneLoopPlayingSet = !_blocMusic.isOneLoopPlaying;
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.repeat,
+                color: _blocMusic.isOneLoopPlaying
+                    ? AppColors.darkBlue
+                    : Colors.black,
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -349,13 +343,12 @@ class _DetailPageState extends State<DetailPage>
   SfSliderTheme _musicSeekTime(BuildContext context, {int? maxDuration}) {
     return SfSliderTheme(
       data: SfSliderTheme.of(context).copyWith(
-        thumbStrokeWidth: 8,
-        thumbStrokeColor: AppColors.mainColor,
-        activeDividerColor: AppColors.styleColor,
-        inactiveDividerColor: AppColors.styleColor.withAlpha(90),
-        thumbColor: AppColors.darkBlue,
-        thumbRadius: 15,
-      ),
+          thumbStrokeWidth: 8,
+          activeDividerColor: Colors.red,
+          inactiveDividerColor: Colors.red,
+          thumbColor: Colors.red,
+          thumbRadius: 10,
+          activeTrackColor: Colors.red),
       child: SfSlider(
         max: Duration(milliseconds: maxDuration!).inSeconds,
         min: 0,

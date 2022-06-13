@@ -15,15 +15,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../resource/Color_manager.dart';
 import 'custom_button_widge.dart';
+
 class ListOfSongSearch extends StatefulWidget {
   final MusicModel? currentPlayMusic;
-  const ListOfSongSearch({Key? key,this.currentPlayMusic}) : super(key: key);
+  const ListOfSongSearch({Key? key, this.currentPlayMusic}) : super(key: key);
 
   @override
   State<ListOfSongSearch> createState() => _ListOfSongSearchState();
 }
 
-class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerProviderStateMixin{
+class _ListOfSongSearchState extends State<ListOfSongSearch>
+    with SingleTickerProviderStateMixin {
   int _id = 0;
   late AnimationController _controller;
   late DB db;
@@ -34,11 +36,13 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 400));
   }
+
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final bloc = BlocProvider.of<BlocMusic>(context);
@@ -66,12 +70,35 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
               duration: const Duration(milliseconds: 300),
               decoration: BoxDecoration(
                   color: _id == _muicIndex.id
-                      ? AppColors.activeColor
-                      : AppColors.mainColor,
+                      ? Colors.orangeAccent[100]
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(20)),
               padding: const EdgeInsets.all(16),
               child: InkWell(
-                onTap: () {
+                onTap: () async{
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (c) {
+                        bloc.add(
+                          SetValue(bloc.musics[index]),
+                        );
+                        return DetailPage(
+                          model: widget.currentPlayMusic!,
+                          newModel: _muicIndex,
+                        );
+                      },
+                    ),
+                  ).then((value) {
+                    setState(() {
+                      if (bloc.audioPlayer.state == PlayerState.PLAYING) {
+                        _id = widget.currentPlayMusic!.id;
+                        _controller.forward();
+                      } else {
+                        _controller.reverse();
+                        _id = 0;
+                      }
+                    });
+                  });
                   if (bloc.audioPlayer.state != PlayerState.PLAYING) {
                     bloc.add(PlayMusic(_muicIndex.id));
 
@@ -79,25 +106,25 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
                     setState(() {
                       _id = _muicIndex.id;
                     });
-                  } else if (bloc.audioPlayer.state ==
-                      PlayerState.PLAYING &&
+                  } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
                       widget.currentPlayMusic != _muicIndex) {
                     bloc.add(PlayMusic(_muicIndex.id));
                     _controller.forward();
                     setState(() {
                       _id = _muicIndex.id;
                     });
-                  // } else {
-                  //   _controller.reverse();
-                  //   bloc.add(PauseResumeMusic());
-                  //   Future.delayed(_controller.duration!)
-                  //       .then((value) {
-                  //     setState(() {
-                  //       _id = 0;
-                  //     });
-                  //   });
-                  // }
-                }},
+                  }
+                  else {
+                    _controller.reverse();
+                    bloc.add(PauseResumeMusic());
+                    Future.delayed(_controller.duration!)
+                        .then((value) {
+                      setState(() {
+                        _id = 0;
+                      });
+                    });
+                  }
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,51 +134,29 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (c) {
-                                  bloc.add(
-                                    SetValue(bloc.musics[index]),
-                                  );
-                                  return DetailPage(
-                                    model: widget.currentPlayMusic!,
-                                    newModel: _muicIndex,
-                                  );
-                                },
-                              ),
-                            ).then((value) {
-                              setState(() {
-                                if (bloc.audioPlayer.state == PlayerState.PLAYING) {
-                                  _id = widget.currentPlayMusic!.id;
-                                  _controller.forward();
-                                } else {
-                                  _controller.reverse();
-                                  _id = 0;
-                                }
-                              });
-                            });
-                          },
-                          child: ImageMusicShow(
-                            imageOfMusic: _muicIndex.artworkWidget,
-                            size: 50,
+                            child: ImageMusicShow(
+                              imageOfMusic: _muicIndex.artworkWidget,
+                              size: 50,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                _muicIndex.title.length < 50
+                                _muicIndex.title.length < 40
                                     ? _muicIndex.title
-                                    : _muicIndex.title.substring(50),
+                                    : _muicIndex.title.substring(15),
                                 overflow: TextOverflow.fade,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 19,
-                                  fontWeight : FontWeight.w600,
-                                  color:AppColors.styleColor,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.styleColor,
                                 ),
                               ),
                               Text(
@@ -160,42 +165,40 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 16,
-                                    fontWeight : FontWeight.w400,
-                                    color:AppColors.styleColor
-                                ),
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.styleColor),
                               ),
                             ],
-                          ),],
+                          ),
+                        ],
                       ),
                     ),
-
-                    customButtonWidget(
-                      isActive: _id == _muicIndex.id,
-                      child: IconButton(
-                          icon: _id == _muicIndex.id
-                              ? AnimatedIcon(
-                            progress: _controller,
-                            icon: AnimatedIcons.play_pause,
-                            color: _id == widget.currentPlayMusic!.id
-                                ? Colors.white
-                                : AppColors.styleColor,
-                          )
-                              : Icon(Icons.favorite,
-                              color: _muicIndex.isFavorite
-                                  ? Colors.red
-                                  : Colors.white),
-                          onPressed: () async {
-                            _muicIndex.isFavorite ? {BlocProvider.of<FavoriteBloc>(context)
-                                .add(RemoveFavorites(_muicIndex)),
-                              // db.delete(_muicIndex.id)
-                            }
-                                : {BlocProvider.of<FavoriteBloc>(context)
-                                .add(AddFavorites(_muicIndex)),
-                              // db.insertData(_muicIndex)
-                            };
-                            setState((){});
-                          }),
-                    ),
+                    IconButton(
+                        icon: _id == _muicIndex.id
+                            ? AnimatedIcon(
+                                progress: _controller,
+                                icon: AnimatedIcons.play_pause,
+                                color: _id == widget.currentPlayMusic!.id
+                                    ? Colors.black
+                                    : AppColors.styleColor,
+                              )
+                            : (_muicIndex.isFavorite
+                                ? Icon(Icons.favorite, color: Colors.red)
+                                : Icon(Icons.favorite_border)),
+                        onPressed: () async {
+                          _muicIndex.isFavorite
+                              ? {
+                                  BlocProvider.of<FavoriteBloc>(context)
+                                      .add(RemoveFavorites(_muicIndex)),
+                                  // db.delete(_muicIndex.id)
+                                }
+                              : {
+                                  BlocProvider.of<FavoriteBloc>(context)
+                                      .add(AddFavorites(_muicIndex)),
+                                  // db.insertData(_muicIndex)
+                                };
+                          setState(() {});
+                        }),
                   ],
                 ),
               ),
@@ -203,5 +206,4 @@ class _ListOfSongSearchState extends State<ListOfSongSearch> with SingleTickerPr
           );
         });
   }
-
 }

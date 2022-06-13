@@ -39,23 +39,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        centerTitle: true,
         title: Text(
-          'FavoriteSong',
+          'Favorites',
           style: TextStyle(
               color: AppColors.styleColor, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: AppColors.mainColor,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: AppColors.styleColor,
-            )),
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: AppColors.mainColor,
+      backgroundColor: Colors.white,
       // body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
       //   return ListView.builder(
       //       itemCount: state.music.length,
@@ -102,24 +93,26 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       //       });
       // }),
 
-      body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state){
+      body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
         return ListView.builder(
           itemBuilder: (context, index) => ListTile(
             leading: ImageMusicShow(
               imageOfMusic: bloc1.datas[index].artworkWidget,
               size: 50,
+              borderRadius: BorderRadius.circular(10),
             ),
             title: Text(bloc1.datas[index].title),
             subtitle: Text(bloc1.datas[index].artist),
             trailing: IconButton(
-              onPressed: () {
-                setState(() {
-                  BlocProvider.of<FavoriteBloc>(context)
-                      .add(RemoveFavorites(bloc.musics[index]));
-                });
-              },
-              icon: Icon(Icons.delete),
-            ),
+                icon: bloc.musics[index].isFavorite
+                    ? Icon(Icons.favorite, color: Colors.red)
+                    : Icon(Icons.favorite_border),
+                onPressed: () async {
+                  setState(() {
+                    BlocProvider.of<FavoriteBloc>(context)
+                        .add(RemoveFavorites(bloc.musics[index]));
+                  });
+                }),
             onTap: () {
               if (bloc.audioPlayer.state != PlayerState.PLAYING) {
                 bloc.add(PlayMusic(bloc1.datas[index].id));
@@ -147,11 +140,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               setState(() {});
             },
           ),
-          itemCount:bloc1.datas.length,
+          itemCount: bloc1.datas.length,
         );
-      }
-
-      ),
+      }),
     );
   }
 }

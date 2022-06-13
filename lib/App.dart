@@ -1,7 +1,6 @@
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/FavoriteScreen.dart';
 import 'package:app_music_bkav/screen/Home_screen.dart';
-import 'package:app_music_bkav/screen/ProfileScreen.dart';
 import 'package:app_music_bkav/screen/SearchScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audiotagger/audiotagger.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class App extends StatefulWidget {
@@ -17,7 +17,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   late AudioPlayer audioPlayer;
   late BlocMusic provider;
   late OnAudioQuery onAudioQuery;
@@ -44,7 +44,7 @@ class _AppState extends State<App> {
             path: element.data,
             title: element.title,
             duration: element.duration!,
-            artworkWidget:artWork);
+            artworkWidget: artWork);
         musics.add(music);
         await Future.delayed(
             const Duration(microseconds: 10)); // this is for complete ui
@@ -57,20 +57,21 @@ class _AppState extends State<App> {
   }
 
   final tabs = [
+    SearchScreen(
+      musics: [],
+    ),
     HomeScreen(
       musics: [],
     ),
-    SearchScreen(musics: [],),
     FavoriteScreen(),
-    ProfileScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentIndex == 0
+      body: _currentIndex == 1
           ? (isLoading
               ? const Scaffold(
-                  backgroundColor: AppColors.mainColor,
+                  backgroundColor: Colors.white,
                   body: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -89,31 +90,33 @@ class _AppState extends State<App> {
                       : provider.musics,
                 ))
           : tabs[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: 'Search',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favorite',
-              backgroundColor: Colors.blue),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-              backgroundColor: Colors.blue)
-        ],
-        onTap: (index) {
+      bottomNavigationBar: GNav(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        backgroundColor: Colors.orangeAccent,
+        color: Colors.white,
+        activeColor: Colors.white,
+        gap: 8,
+        padding: EdgeInsets.all(16),
+        onTabChange: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
+        tabBackgroundColor: Colors.orange,
+        tabs:  [
+          GButton(
+            icon: Icons.search,
+            text: 'Search',
+          ),
+          GButton(
+            icon: Icons.home,
+            text: 'Home',
+          ),
+          GButton(
+            icon: Icons.favorite,
+            text: 'Favorite',
+          )
+        ],
       ),
     );
   }
