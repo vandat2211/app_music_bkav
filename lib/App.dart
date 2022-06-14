@@ -1,3 +1,4 @@
+import 'package:app_music_bkav/ReponsiverWidget.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/FavoriteScreen.dart';
 import 'package:app_music_bkav/screen/Home_screen.dart';
@@ -103,7 +104,7 @@ class _AppState extends State<App> {
           });
         },
         tabBackgroundColor: Colors.orange,
-        tabs:  [
+        tabs: [
           GButton(
             icon: Icons.search,
             text: 'Search',

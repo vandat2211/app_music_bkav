@@ -5,7 +5,6 @@ import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/Widget/image_music_shower.dart';
-import 'package:app_music_bkav/Widget/list_song.dart';
 import 'package:app_music_bkav/Widget/list_song_search.dart';
 import 'package:app_music_bkav/bloc/bloc_event.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
