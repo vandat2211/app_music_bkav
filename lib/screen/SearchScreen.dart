@@ -1,18 +1,20 @@
 import 'dart:async';
+import 'package:app_music_bkav/Bloc_Search/Search_Bloc.dart';
+import 'package:app_music_bkav/Bloc_Search/Search_Event.dart';
+import 'package:app_music_bkav/Bloc_Search/Search_State.dart';
+import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
+import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:app_music_bkav/Database.dart';
-import 'package:app_music_bkav/Search/SearchBloc.dart';
-import 'package:app_music_bkav/Search/SearchEvent.dart';
-import 'package:app_music_bkav/Search/SearchState.dart';
+
+
 import 'package:app_music_bkav/Widget/list_button.dart';
 import 'package:app_music_bkav/Widget/list_song_search.dart';
-import 'package:app_music_bkav/bloc/bloc_provider.dart';
-import 'package:app_music_bkav/bloc/bloc_state.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../Widget/image_music_shower.dart';
+import '../Widget/Image_music_shower.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<MusicModel> musics;

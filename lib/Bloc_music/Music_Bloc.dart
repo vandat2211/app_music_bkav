@@ -1,7 +1,9 @@
-import 'package:app_music_bkav/bloc/bloc_event.dart';
-import 'package:app_music_bkav/bloc/bloc_state.dart';
+
+import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
+import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 import '../Model/music_model.dart';
 class BlocMusic extends Bloc<BlocEvent,BlocState>{
@@ -104,8 +106,8 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
         }
       } else if (event is PlayMusic) {
         final readyToPlayMusic = findById(event.musicId);
-
         await _audioPlayer.play(readyToPlayMusic.path, isLocal: true);
+        MediaItem(id: '${event.musicId}', title: "dat");
         _whenCompleteMusic();
         emit(BlocState(readyToPlayMusic, isOneLoopPlaying: _isOneLoopPlaying));
       } else if (event is PauseResumeMusic) {

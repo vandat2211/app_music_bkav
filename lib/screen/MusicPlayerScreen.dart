@@ -1,10 +1,10 @@
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
+import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
+import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
+import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:app_music_bkav/Widget/image_music_shower.dart';
-import 'package:app_music_bkav/bloc/bloc_event.dart';
-import 'package:app_music_bkav/bloc/bloc_provider.dart';
-import 'package:app_music_bkav/bloc/bloc_state.dart';
+import 'package:app_music_bkav/Widget/Image_music_shower.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/custom_progress_widget.dart';
@@ -35,6 +35,7 @@ class _DetailPageState extends State<DetailPage>
   Duration _duration = Duration.zero;
   bool _isPlaying = false;
   late MusicModel musicModelNew;
+
   @override
   void initState() {
     super.initState();
@@ -43,7 +44,6 @@ class _DetailPageState extends State<DetailPage>
     modelState = widget.model;
     maxDuration = widget.newModel.duration;
     musicModelNew = modelState;
-
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -87,136 +87,142 @@ class _DetailPageState extends State<DetailPage>
                 _id = stateBlocMusic.musicModel.id;
                 maxDuration = stateBlocMusic.musicModel.duration;
               }),
-              builder: (c, state) => Column(
+              builder: (c, state) => ListView(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(contrains.maxHeight * 0.010),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        customButtonWidget(
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: AppColors.styleColor,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "PLAYING NOW",
-                          style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.styleColor),
-                          // style: getTitileStyle(fontWeight: FontWeight.w300),
-                        ),
-                        IconButton(
-                            icon: state.musicModel.isFavorite
-                                ? Icon(Icons.favorite, color: Colors.red)
-                                : Icon(Icons.favorite_border),
-                            onPressed: () async {
-                              state.musicModel.isFavorite
-                                  ? {
-                                      BlocProvider.of<FavoriteBloc>(context)
-                                          .add(RemoveFavorites(
-                                              state.musicModel)),
-                                      // db.delete(_muicIndex.id)
-                                    }
-                                  : {
-                                      BlocProvider.of<FavoriteBloc>(context)
-                                          .add(AddFavorites(state.musicModel)),
-                                      // db.insertData(_muicIndex)
-                                    };
-                              setState(() {});
-                            }),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: contrains.maxHeight * 0.35,
-                    height: contrains.maxHeight * 0.35,
-                    child: ImageMusicShow(
-                      imageOfMusic: state.musicModel.artworkWidget,
-                      size: 230,
-                      borderRadius: BorderRadius.circular(150),
-                    ),
-                  ),
-                  SizedBox(
-                    height: contrains.maxHeight * 0.040,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: contrains.maxWidth * 0.048),
-                    child: Text(
-                      state.musicModel.title,
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: AppColors.styleColor,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  SizedBox(
-                    height: contrains.maxHeight * 0.01,
-                  ),
-                  Text(
-                    state.musicModel.artist,
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.styleColor),
-                  ),
-                  SizedBox(
-                    height: contrains.maxHeight * 0.020,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Column(
                     children: [
+                      Padding(
+                        padding: EdgeInsets.all(contrains.maxHeight * 0.010),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            customButtonWidget(
+                              child: IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  color: AppColors.styleColor,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "PLAYING NOW",
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.styleColor),
+                              // style: getTitileStyle(fontWeight: FontWeight.w300),
+                            ),
+                            IconButton(
+                                icon: state.musicModel.isFavorite
+                                    ? Icon(Icons.favorite, color: Colors.red)
+                                    : Icon(Icons.favorite_border),
+                                onPressed: () async {
+                                  state.musicModel.isFavorite
+                                      ? {
+                                    BlocProvider.of<FavoriteBloc>(context)
+                                        .add(RemoveFavorites(
+                                        state.musicModel)),
+                                    // db.delete(_muicIndex.id)
+                                  }
+                                      : {
+                                    BlocProvider.of<FavoriteBloc>(context)
+                                        .add(AddFavorites(state.musicModel)),
+                                    // db.insertData(_muicIndex)
+                                  };
+                                  setState(() {});
+                                }),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       SizedBox(
-                        width: contrains.maxWidth * 0.05,
+                        width: contrains.maxHeight * 0.35,
+                        height: contrains.maxHeight * 0.35,
+                        child: ImageMusicShow(
+                          imageOfMusic: state.musicModel.artworkWidget,
+                          size: 230,
+                          borderRadius: BorderRadius.circular(150),
+                        ),
+                      ),
+                      SizedBox(
+                        height: contrains.maxHeight * 0.040,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: contrains.maxWidth * 0.048),
+                        child: Text(
+                          state.musicModel.title,
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: AppColors.styleColor,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      SizedBox(
+                        height: contrains.maxHeight * 0.01,
+                      ),
+                      Text(
+                        state.musicModel.artist,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.styleColor),
+                      ),
+                      SizedBox(
+                        height: contrains.maxHeight * 0.020,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: contrains.maxWidth * 0.05,
+                          ),
+                          BlocConsumer<TimerCubit, Duration>(
+                              listener: (context, state) async {},
+                              builder: (context, state) {
+                                _duration = state;
+                                if (modelState.id != widget.newModel.id) {
+                                  _duration = Duration.zero;
+                                }
+                                return Expanded(
+                                  child: Text(
+                                    "${_duration.inMinutes > 9 ? _duration.inMinutes : '0' + _duration.inMinutes.toString()}:${_duration.inSeconds % 60 > 9 ? _duration.inSeconds % 60 : '0' + (_duration.inSeconds % 60).toString()}",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                );
+                              }),
+                          Text(
+                            "${state.musicModel.duration ~/ 60000 > 9 ? state.musicModel.duration ~/ 60000 : '0' + (state.musicModel.duration ~/ 60000).toString()}:${(state.musicModel.duration ~/ 1000) % 60 > 9 ? (state.musicModel.duration ~/ 1000) % 60 : '0' + (state.musicModel.duration ~/ 1000 % 60).toString()}",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          SizedBox(
+                            width: contrains.maxWidth * 0.05,
+                          ),
+                        ],
                       ),
                       BlocConsumer<TimerCubit, Duration>(
-                          listener: (context, state) async {},
+                          listener: (context, state) {},
                           builder: (context, state) {
-                            _duration = state;
-                            if (modelState.id != widget.newModel.id) {
-                              _duration = Duration.zero;
-                            }
-                            return Expanded(
-                              child: Text(
-                                "${_duration.inMinutes > 9 ? _duration.inMinutes : '0' + _duration.inMinutes.toString()}:${_duration.inSeconds % 60 > 9 ? _duration.inSeconds % 60 : '0' + (_duration.inSeconds % 60).toString()}",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                            );
+                            return _musicSeekTime(context,
+                                maxDuration: maxDuration);
                           }),
-                      Text(
-                        "${state.musicModel.duration ~/ 60000 > 9 ? state.musicModel.duration ~/ 60000 : '0' + (state.musicModel.duration ~/ 60000).toString()}:${(state.musicModel.duration ~/ 1000) % 60 > 9 ? (state.musicModel.duration ~/ 1000) % 60 : '0' + (state.musicModel.duration ~/ 1000 % 60).toString()}",
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        width: contrains.maxWidth * 0.05,
-                      ),
+                      _playButtonsAction(state.musicModel.id),
+
                     ],
                   ),
-                  BlocConsumer<TimerCubit, Duration>(
-                      listener: (context, state) {},
-                      builder: (context, state) {
-                        return _musicSeekTime(context,
-                            maxDuration: maxDuration);
-                      }),
-                  _playButtonsAction(state.musicModel.id),
                 ],
+
               ),
             );
           },

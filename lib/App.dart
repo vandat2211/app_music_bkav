@@ -1,3 +1,4 @@
+import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
 import 'package:app_music_bkav/ReponsiverWidget.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/FavoriteScreen.dart';
@@ -6,7 +7,6 @@ import 'package:app_music_bkav/screen/SearchScreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audiotagger/audiotagger.dart';
 import 'package:flutter/material.dart';
-import 'package:app_music_bkav/bloc/bloc_provider.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

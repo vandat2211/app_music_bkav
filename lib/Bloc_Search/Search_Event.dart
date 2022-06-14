@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+
 
 abstract class SearchEvent extends Equatable {
   @override
@@ -10,9 +12,6 @@ class SearchEventLoadData extends SearchEvent{
   @override
   List<Object> get props => [query];
 }
-
-
-
 
 
 

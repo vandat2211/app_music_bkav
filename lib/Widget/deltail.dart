@@ -1,10 +1,10 @@
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
 import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
+import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
+import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
+import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:app_music_bkav/Widget/image_music_shower.dart';
-import 'package:app_music_bkav/bloc/bloc_event.dart';
-import 'package:app_music_bkav/bloc/bloc_provider.dart';
-import 'package:app_music_bkav/bloc/bloc_state.dart';
+import 'package:app_music_bkav/Widget/Image_music_shower.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/custom_progress_widget.dart';

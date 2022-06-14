@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Favorite_Even.dart';
-import 'Favorites_state.dart';
+import 'Favorites_State.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   late DB db;
