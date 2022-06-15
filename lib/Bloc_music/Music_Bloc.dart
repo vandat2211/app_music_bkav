@@ -50,14 +50,14 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
   }
   MusicModel playNext(int id) {
     '''pass id and get get next Music Modle 
-    Note: please befor use it use isEnd method
+    Note: please before use it use isEnd method
     ''';
     final index = _model.indexWhere((element) => element.id == id);
     return _model[index + 1];
   }
   MusicModel playPrevious(int id) {
     '''pass id and get get previous Music Modle 
-    Note: please befor use it use isStart method
+    Note: please before use it use isStart method
     ''';
     final index = _model.indexWhere((element) => element.id == id);
     return _model[index - 1];

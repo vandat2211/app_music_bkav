@@ -8,6 +8,10 @@ import 'package:flutter/material.dart';
     this.music=const<MusicModel>[]
 });
 
+  FavoriteState copyWith(List<MusicModel> musics){
+    return  FavoriteState(music: musics);
+  }
+
   @override
   List<Object> get props=>[music];
 }

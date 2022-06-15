@@ -7,7 +7,6 @@ import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/Image_music_shower.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
-import 'package:app_music_bkav/custom_progress_widget.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -357,12 +356,12 @@ class _DetailPageState extends State<DetailPage>
           activeTrackColor: Colors.red),
       child: SfSlider(
         max: Duration(milliseconds: maxDuration!).inSeconds,
-        min: 0,
+        min: 0.0,
         value: _duration.inSeconds,
         onChanged: (v) {
           // used for change time of music
-
           _blocMusic.audioPlayer.seek(Duration(seconds: (v ~/ 1) - 2));
+
         },
       ),
     );

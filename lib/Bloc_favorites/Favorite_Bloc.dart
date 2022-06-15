@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -15,6 +17,8 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
       db=DB();
       on<AddFavorites>(_mapAddFavorite);
       on<RemoveFavorites>(_mapRemove);
+      on<GetFavorites>(_getDb);
+     add(GetFavorites());
   }
 
     void _mapAddFavorite(AddFavorites event,Emitter<FavoriteState> emit)async{
@@ -23,6 +27,7 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     // emit(FavoriteState(music: List.from(state.music)..add(event.musicModel),));
       db.insertData(event.musicModel);
       datas = await db.getData();
+      emit(state.copyWith(datas));
     }
   void _mapRemove(RemoveFavorites event,Emitter<FavoriteState> emit)async{
     event.musicModel.isFavorite=false;
@@ -30,7 +35,11 @@ class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
     datas = await db.getData();
     final state=this.state;
     // emit(FavoriteState(music: List.from(state.music)..remove(event.musicModel),));
-
+    emit(state.copyWith(datas));
 
   }
+
+  FutureOr<void> _getDb(GetFavorites event, Emitter<FavoriteState> emit) async {
+    datas = await db.getData();
   }
+}

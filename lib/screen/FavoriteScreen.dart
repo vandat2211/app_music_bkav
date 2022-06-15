@@ -7,7 +7,7 @@ import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/Widget/Image_music_shower.dart';
-import 'package:app_music_bkav/Widget/list_song_search.dart';
+import 'package:app_music_bkav/Widget/list_songs.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/MusicPlayerScreen.dart';
 import 'package:audioplayers/audioplayers_api.dart';
@@ -93,52 +93,54 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
       body: BlocBuilder<FavoriteBloc, FavoriteState>(builder: (context, state) {
         return ListView.builder(
-          itemBuilder: (context, index) => ListTile(
-            leading: ImageMusicShow(
-              imageOfMusic: bloc1.datas[index].artworkWidget,
-              size: 50,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            title: Text(bloc1.datas[index].title),
-            subtitle: Text(bloc1.datas[index].artist),
-            trailing: IconButton(
-                icon: bloc.musics[index].isFavorite
-                    ? Icon(Icons.favorite, color: Colors.red)
-                    : Icon(Icons.favorite_border),
-                onPressed: () async {
-                  setState(() {
-                    BlocProvider.of<FavoriteBloc>(context)
-                        .add(RemoveFavorites(bloc.musics[index]));
-                  });
-                }),
-            onTap: () {
-              if (bloc.audioPlayer.state != PlayerState.PLAYING) {
-                bloc.add(PlayMusic(bloc1.datas[index].id));
+          itemCount: state.music.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: ImageMusicShow(
+                imageOfMusic: state.music[index].artworkWidget,
+                size: 50,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              title: Text(state.music[index].title),
+              subtitle: Text(state.music[index].artist),
+              trailing: IconButton(
+                  icon: bloc.musics[index].isFavorite
+                      ? Icon(Icons.favorite, color: Colors.red)
+                      : Icon(Icons.favorite_border),
+                  onPressed: () async {
+                    setState(() {
+                      BlocProvider.of<FavoriteBloc>(context)
+                          .add(RemoveFavorites(bloc.musics[index]));
+                    });
+                  }),
+              onTap: () {
+                if (bloc.audioPlayer.state != PlayerState.PLAYING) {
+                  bloc.add(PlayMusic(state.music[index].id));
 
-                setState(() {
-                  _id = bloc1.datas[index].id;
-                });
-              } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
-                  widget.currentPlayMusic != bloc1.datas[index]) {
-                bloc.add(PlayMusic(bloc1.datas[index].id));
-                setState(() {
-                  _id = bloc1.datas[index].id;
-                });
-              }
-              ;
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (c) {
-                  bloc.add(SetValue(bloc1.datas[index]));
-                  return DetailPage(
-                    model: bloc1.datas[index],
-                    newModel: bloc1.datas[index],
-                  );
-                }),
-              );
-              setState(() {});
-            },
-          ),
-          itemCount: bloc1.datas.length,
+                  setState(() {
+                    _id = state.music[index].id;
+                  });
+                } else if (bloc.audioPlayer.state == PlayerState.PLAYING &&
+                    widget.currentPlayMusic != state.music[index]) {
+                  bloc.add(PlayMusic(state.music[index].id));
+                  setState(() {
+                    _id = state.music[index].id;
+                  });
+                }
+                ;
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (c) {
+                    bloc.add(SetValue(state.music[index]));
+                    return DetailPage(
+                      model: state.music[index],
+                      newModel: state.music[index],
+                    );
+                  }),
+                );
+                setState(() {});
+              },
+            );
+          },
         );
       }),
     );

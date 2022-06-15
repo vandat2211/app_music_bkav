@@ -20,3 +20,9 @@ class RemoveFavorites extends FavoriteEvent {
   @override
   List<Object> get props=>[musicModel];
 }
+
+class GetFavorites extends FavoriteEvent {
+  const GetFavorites();
+  @override
+  List<Object> get props=>[];
+}

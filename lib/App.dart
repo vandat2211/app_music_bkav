@@ -1,6 +1,4 @@
 import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/ReponsiverWidget.dart';
-import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/screen/FavoriteScreen.dart';
 import 'package:app_music_bkav/screen/Home_screen.dart';
 import 'package:app_music_bkav/screen/SearchScreen.dart';
@@ -47,8 +45,8 @@ class _AppState extends State<App> {
             duration: element.duration!,
             artworkWidget: artWork);
         musics.add(music);
-        await Future.delayed(
-            const Duration(microseconds: 3)); // this is for complete ui
+        // await Future.delayed(
+        //     const Duration(microseconds: 3)); // this is for complete ui
       }
     }
     provider.getListOfMusicModel = musics; // provider is bloc music
@@ -62,7 +60,6 @@ class _AppState extends State<App> {
       musics: [],
     ),
     HomeScreen(
-      musics: [],
     ),
     FavoriteScreen(),
   ];
@@ -78,25 +75,17 @@ class _AppState extends State<App> {
                   ),
                 )
               : HomeScreen(
-                  musics: provider.musics.isEmpty
-                      ? ([
-                          MusicModel(
-                              artworkWidget: null,
-                              artist: "Not Found",
-                              id: 0,
-                              duration: 0,
-                              path: "",
-                              title: "Not Found"),
-                        ])
-                      : provider.musics,
+                  musics: provider.musics,
                 ))
           : tabs[_currentIndex],
+
       bottomNavigationBar: GNav(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         backgroundColor: Colors.orangeAccent,
         color: Colors.white,
         activeColor: Colors.white,
         gap: 8,
+        selectedIndex: _currentIndex,
         padding: EdgeInsets.all(16),
         onTabChange: (index) {
           setState(() {

@@ -6,9 +6,8 @@ import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
 import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:app_music_bkav/Database.dart';
 
-
-import 'package:app_music_bkav/Widget/list_button.dart';
-import 'package:app_music_bkav/Widget/list_song_search.dart';
+import 'package:app_music_bkav/Widget/Button_PlayMedia.dart';
+import 'package:app_music_bkav/Widget/list_songs.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   bool isFavorit = false;
   final controller = TextEditingController();
-
+List<MusicModel> listmusic=[];
   @override
   void initState() {
     super.initState();
@@ -67,6 +66,19 @@ class _SearchScreenState extends State<SearchScreen> {
 
         return Column(
           children: <Widget>[
+            Container(
+              margin: EdgeInsets.fromLTRB(16, 16, 16, 16),
+              child: TextField(
+                // onChanged: SearchView,
+                controller: controller,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.blueAccent))),
+              ),
+            ),
             Expanded(
               child: ListOfSongSearch(currentPlayMusic: state.musicModel),
             ),
@@ -83,6 +95,16 @@ class _SearchScreenState extends State<SearchScreen> {
         );
       }),
     );
+
+  }
+
+  void SearchView(String query,List<MusicModel> listall,String Title) {
+    final suggestions=listall.where((element) {
+      final title=Title.toLowerCase();
+      final input=query.toLowerCase();
+      return title.contains(input);
+    }).toList();
+    setState(()=>listmusic=suggestions);
   }
 }
 
@@ -112,7 +134,6 @@ class SongSearch extends SearchDelegate<List> {
 
   @override
   Widget buildResults(BuildContext context) {
-    final bloc = BlocProvider.of<BlocMusic>(context);
     querystring = query;
     searchBloc.add(SearchEventLoadData(query: query));
     return BlocBuilder<SearchBloc, SearchState>(
@@ -153,6 +174,29 @@ class SongSearch extends SearchDelegate<List> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
+        setState() {
+          final MusicModel _music = state.musicModel;
+        }
+
+        return Column(
+          children: <Widget>[
+            Expanded(
+              child: ListOfSongSearch(currentPlayMusic: state.musicModel),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: ListButton(
+                    currentPlayMusic: state.musicModel,
+                    newModel: state.musicModel,
+                  )),
+            )
+          ],
+        );
+      }),
+    );
   }
 }
