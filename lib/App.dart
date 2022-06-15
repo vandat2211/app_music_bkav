@@ -48,7 +48,7 @@ class _AppState extends State<App> {
             artworkWidget: artWork);
         musics.add(music);
         await Future.delayed(
-            const Duration(microseconds: 10)); // this is for complete ui
+            const Duration(microseconds: 3)); // this is for complete ui
       }
     }
     provider.getListOfMusicModel = musics; // provider is bloc music

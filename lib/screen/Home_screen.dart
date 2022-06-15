@@ -1,13 +1,9 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorites_State.dart';
 import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
 import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
 import 'package:app_music_bkav/Bloc_music/Music_State.dart';
-import 'package:app_music_bkav/Database.dart';
 import 'package:app_music_bkav/ReponsiverWidget.dart';
 import 'package:app_music_bkav/Widget/deltail.dart';
 import 'package:app_music_bkav/Widget/list_button.dart';
@@ -15,9 +11,6 @@ import 'package:app_music_bkav/Widget/list_song.dart';
 import 'package:app_music_bkav/Widget/list_song_search.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
-import 'package:app_music_bkav/screen/FavoriteScreen.dart';
-import 'package:app_music_bkav/screen/SearchScreen.dart';
-import 'package:app_music_bkav/screen/MusicPlayerScreen.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:audioplayers/audioplayers_api.dart';
@@ -27,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-import '../Widget/Image_music_shower.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final List<MusicModel> musics;
