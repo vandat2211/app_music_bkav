@@ -355,7 +355,7 @@ class _DetailPageState extends State<DetailPage>
           thumbRadius: 10,
           activeTrackColor: Colors.red),
       child: SfSlider(
-        max: Duration(milliseconds: maxDuration!).inSeconds,
+        max:  Duration(milliseconds: maxDuration!).inSeconds==0?300:Duration(milliseconds: maxDuration).inSeconds,
         min: 0.0,
         value: _duration.inSeconds,
         onChanged: (v) {

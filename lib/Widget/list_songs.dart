@@ -108,14 +108,6 @@ class _ListOfSongSearchState extends State<ListOfSongSearch>
                     setState(() {
                       _id = _muicIndex.id;
                     });
-                  } else {
-                    _controller.reverse();
-                    bloc.add(PauseResumeMusic());
-                    Future.delayed(_controller.duration!).then((value) {
-                      setState(() {
-                        _id = 0;
-                      });
-                    });
                   }
                 },
                 child: Row(
@@ -179,6 +171,17 @@ class _ListOfSongSearchState extends State<ListOfSongSearch>
                                 ? Icon(Icons.favorite, color: Colors.red)
                                 : Icon(Icons.favorite_border)),
                         onPressed: () async {
+                          _id == _muicIndex.id
+                          ? {
+                          _controller.reverse(),
+                          bloc.add(PauseResumeMusic()),
+                          Future.delayed(_controller.duration!).then((value) {
+                          setState(() {
+                          _id = 0;
+                          });
+                          })
+                          }
+                          :
                           _muicIndex.isFavorite
                               ? BlocProvider.of<FavoriteBloc>(context)
                                   .add(RemoveFavorites(_muicIndex))

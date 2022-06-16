@@ -166,6 +166,17 @@ class _ListOfSongState extends State<ListOfSong>
                                   ? Icon(Icons.favorite, color: Colors.red)
                                   : Icon(Icons.favorite_border)),
                           onPressed: () async {
+                            _id == _muicIndex.id
+                                ? {
+                              _controller.reverse(),
+                              bloc.add(PauseResumeMusic()),
+                              Future.delayed(_controller.duration!).then((value) {
+                                setState(() {
+                                  _id = 0;
+                                });
+                              })
+                            }
+                                :
                             _muicIndex.isFavorite
                                 ? {
                                     BlocProvider.of<FavoriteBloc>(context)

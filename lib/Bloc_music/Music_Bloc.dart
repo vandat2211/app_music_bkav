@@ -30,38 +30,6 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
     final music = _model.indexWhere((element) => element.id == id);
     return music;
   }
-  bool isEnd(int id) {
-    '''pass id and find location of music and get is end of list of musics or not''';
-    final index = _model.indexWhere((element) => element.id == id);
-    if (index == _model.length - 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  bool isStart(int id) {
-    '''pass id and find location of music and get is start of list of musics or not''';
-    final index = _model.indexWhere((element) => element.id == id);
-    if (index == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  MusicModel playNext(int id) {
-    '''pass id and get get next Music Modle 
-    Note: please before use it use isEnd method
-    ''';
-    final index = _model.indexWhere((element) => element.id == id);
-    return _model[index + 1];
-  }
-  MusicModel playPrevious(int id) {
-    '''pass id and get get previous Music Modle 
-    Note: please before use it use isStart method
-    ''';
-    final index = _model.indexWhere((element) => element.id == id);
-    return _model[index - 1];
-  }
   set isOneLoopPlayingSet(bool isOneLoopPlayingArg) {
     _isOneLoopPlaying = isOneLoopPlayingArg;
   }
@@ -87,16 +55,30 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
   BlocMusic():super(BlocState(MusicModel.first())){
     on<BlocEvent>((event,emit) async{
       if (event is SkipNextMusic) {
-        if (!isEnd(event.nextMusicId)) {
-          final playingThisMusic =
-          _model[findIndex(event.nextMusicId) + 1]; // next music
-
+        if (findIndex(event.nextMusicId) == _model.length-1) {
+          final playingThisMusic = _model[0];
           await _audioPlayer.play(playingThisMusic.path, isLocal: true);
           emit(
               BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying));
         }
-      } else if (event is SkipPreviousMusic) {
-        if (!isStart(event.previousMusicId)) {
+        else {
+          final playingThisMusic =
+          _model[findIndex(event.nextMusicId) + 1];
+          await _audioPlayer.play(playingThisMusic.path, isLocal: true);
+          emit(
+              BlocState(playingThisMusic ,isOneLoopPlaying: _isOneLoopPlaying));
+        }
+      }
+      else if (event is SkipPreviousMusic) {
+        if(findIndex(event.previousMusicId)==0) {
+          final playingThisMusic =
+          _model[_model.length - 1]; // previous music
+
+          await _audioPlayer.play(playingThisMusic.path);
+          emit(
+              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying));
+        }
+        else{
           final playingThisMusic =
           _model[findIndex(event.previousMusicId) - 1]; // previous music
 
