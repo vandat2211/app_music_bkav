@@ -46,8 +46,12 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
     _audioPlayer.onPlayerCompletion.listen((event) {
       if(_isOneLoopPlaying){
         add(PlayMusic(state.musicModel.id));
-      }else{
-        add(StopMusic());
+      }
+      else if(_isOneshuffle){
+        add(PlayMusic(state.musicModel.id));
+      }
+      else{
+        add(SkipNextMusic(state.musicModel.id));
       }
     });
   }
@@ -59,14 +63,14 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
           final playingThisMusic = _model[0];
           await _audioPlayer.play(playingThisMusic.path, isLocal: true);
           emit(
-              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying));
+              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
         }
         else {
           final playingThisMusic =
           _model[findIndex(event.nextMusicId) + 1];
           await _audioPlayer.play(playingThisMusic.path, isLocal: true);
           emit(
-              BlocState(playingThisMusic ,isOneLoopPlaying: _isOneLoopPlaying));
+              BlocState(playingThisMusic ,isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
         }
       }
       else if (event is SkipPreviousMusic) {
@@ -76,7 +80,7 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
 
           await _audioPlayer.play(playingThisMusic.path);
           emit(
-              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying));
+              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
         }
         else{
           final playingThisMusic =
@@ -84,14 +88,14 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
 
           await _audioPlayer.play(playingThisMusic.path);
           emit(
-              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying));
+              BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
         }
       } else if (event is PlayMusic) {
         final readyToPlayMusic = findById(event.musicId);
         await _audioPlayer.play(readyToPlayMusic.path, isLocal: true);
         MediaItem(id: '${event.musicId}', title: "dat");
         _whenCompleteMusic();
-        emit(BlocState(readyToPlayMusic, isOneLoopPlaying: _isOneLoopPlaying));
+        emit(BlocState(readyToPlayMusic, isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
       } else if (event is PauseResumeMusic) {
         if (_audioPlayer.state == PlayerState.PAUSED) {
           await _audioPlayer.resume();
@@ -102,7 +106,8 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
         emit(BlocState(state.musicModel));
       } else if (event is SetValue) {
         emit(BlocState(event.musicModel));
-      } else {
+      }
+     else {
         await _audioPlayer.stop();
         emit(BlocState(state.musicModel));
       }

@@ -17,7 +17,9 @@ class SkipPreviousMusic extends BlocEvent {
   SkipPreviousMusic(this.previousMusicId);
 }
 
-class PauseResumeMusic extends BlocEvent {}
+class PauseResumeMusic extends BlocEvent {
+
+}
 
 class StopMusic extends BlocEvent {}
 

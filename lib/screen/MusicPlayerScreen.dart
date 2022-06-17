@@ -121,16 +121,17 @@ class _DetailPageState extends State<DetailPage>
                                 onPressed: () async {
                                   state.musicModel.isFavorite
                                       ? {
-                                    BlocProvider.of<FavoriteBloc>(context)
-                                        .add(RemoveFavorites(
-                                        state.musicModel)),
-                                    // db.delete(_muicIndex.id)
-                                  }
+                                          BlocProvider.of<FavoriteBloc>(context)
+                                              .add(RemoveFavorites(
+                                                  state.musicModel)),
+                                          // db.delete(_muicIndex.id)
+                                        }
                                       : {
-                                    BlocProvider.of<FavoriteBloc>(context)
-                                        .add(AddFavorites(state.musicModel)),
-                                    // db.insertData(_muicIndex)
-                                  };
+                                          BlocProvider.of<FavoriteBloc>(context)
+                                              .add(AddFavorites(
+                                                  state.musicModel)),
+                                          // db.insertData(_muicIndex)
+                                        };
                                   setState(() {});
                                 }),
                           ],
@@ -211,17 +212,15 @@ class _DetailPageState extends State<DetailPage>
                         ],
                       ),
                       BlocConsumer<TimerCubit, Duration>(
-                          listener: (context, state) {},
-                          builder: (context, state) {
+                          listener: (context, state1) {},
+                          builder: (context, state1) {
                             return _musicSeekTime(context,
-                                maxDuration: maxDuration);
+                                maxDuration: maxDuration,id: state.musicModel.id);
                           }),
                       _playButtonsAction(state.musicModel.id),
-
                     ],
                   ),
                 ],
-
               ),
             );
           },
@@ -340,12 +339,27 @@ class _DetailPageState extends State<DetailPage>
               ),
             ),
           ),
+          customButtonWidget(
+            size: 70,
+            child: IconButton(
+              onPressed: () {
+                _blocMusic.isOneshuffleSet = !_blocMusic.isOneshuffle;
+                setState(() {});
+              },
+              icon: Icon(
+                Icons.shuffle,
+                color: _blocMusic.isOneshuffle
+                    ? AppColors.darkBlue
+                    : Colors.black,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  SfSliderTheme _musicSeekTime(BuildContext context, {int? maxDuration}) {
+  SfSliderTheme _musicSeekTime(BuildContext context, {int? maxDuration,int? id}) {
     return SfSliderTheme(
       data: SfSliderTheme.of(context).copyWith(
           thumbStrokeWidth: 8,
@@ -355,7 +369,9 @@ class _DetailPageState extends State<DetailPage>
           thumbRadius: 10,
           activeTrackColor: Colors.red),
       child: SfSlider(
-        max:  Duration(milliseconds: maxDuration!).inSeconds==0?300:Duration(milliseconds: maxDuration).inSeconds,
+        max: Duration(milliseconds: maxDuration!).inSeconds == 0
+            ? 300
+            : Duration(milliseconds: maxDuration).inSeconds,
         min: 0.0,
         value: _duration.inSeconds,
         onChanged: (v) {
