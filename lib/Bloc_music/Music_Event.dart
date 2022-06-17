@@ -10,7 +10,8 @@ class SkipNextMusic extends BlocEvent {
 
   SkipNextMusic(this.nextMusicId);
 }
-
+class RandumMusic extends BlocEvent {
+}
 class SkipPreviousMusic extends BlocEvent {
   final int previousMusicId;
 

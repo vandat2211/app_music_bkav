@@ -1,4 +1,6 @@
 
+import 'dart:math';
+
 import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
 import 'package:app_music_bkav/Bloc_music/Music_State.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -48,14 +50,13 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
         add(PlayMusic(state.musicModel.id));
       }
       else if(_isOneshuffle){
-        add(PlayMusic(state.musicModel.id));
+        add(RandumMusic());
       }
       else{
         add(SkipNextMusic(state.musicModel.id));
       }
     });
   }
-
   BlocMusic():super(BlocState(MusicModel.first())){
     on<BlocEvent>((event,emit) async{
       if (event is SkipNextMusic) {
@@ -90,7 +91,17 @@ class BlocMusic extends Bloc<BlocEvent,BlocState>{
           emit(
               BlocState(playingThisMusic, isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
         }
-      } else if (event is PlayMusic) {
+      } else if (event is RandumMusic) {
+        // final _random=new Random();
+        //   final playingThisMusic =
+        //   _model[_random.nextInt(_model.length)];
+        var playingThisMusic = (_model.toList()..shuffle()).first;
+          await _audioPlayer.play(playingThisMusic.path, isLocal: true);
+          emit(
+              BlocState(playingThisMusic ,isOneLoopPlaying: _isOneLoopPlaying,isOnelap: _isOneshuffle));
+
+      }
+      else if (event is PlayMusic) {
         final readyToPlayMusic = findById(event.musicId);
         await _audioPlayer.play(readyToPlayMusic.path, isLocal: true);
         MediaItem(id: '${event.musicId}', title: "dat");
