@@ -91,10 +91,6 @@ class _ListOfSongSearchState extends State<ListOfSongSearch>
               padding: const EdgeInsets.all(16),
               child: InkWell(
                 onTap: () async {
-                  MediaItem(
-                    id: '${_muicIndex.id}',
-                    title: '${_muicIndex.title}',
-                  );
                   if (bloc.audioPlayer.state != PlayerState.PLAYING) {
                     bloc.add(PlayMusic(_muicIndex.id));
 
