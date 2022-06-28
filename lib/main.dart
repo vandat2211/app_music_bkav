@@ -1,15 +1,11 @@
-import 'package:app_music_bkav/App.dart';
-import 'package:app_music_bkav/Bloc_Search/Search_Bloc.dart';
-import 'package:app_music_bkav/Bloc_Search/search_repository.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/Model/music_model.dart';
-
+import 'package:app_music_bkav/app.dart';
+import 'package:app_music_bkav/Bloc_favorites/favorite_bloc.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+
+import 'bloc_music/music_bloc.dart';
 Future<void> main() async{
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
@@ -20,8 +16,6 @@ Future<void> main() async{
     providers: [
       BlocProvider<TimerCubit>(create: (ctx) => TimerCubit()),
       BlocProvider<BlocMusic>(create: (ctx) => BlocMusic()),
-
-      BlocProvider<SearchBloc>(create: (ctx)=> SearchBloc(searchRepository: SearchRepositoryImpl(),)),
       BlocProvider<FavoriteBloc>(create: (ctx)=> FavoriteBloc()),
 
     ],

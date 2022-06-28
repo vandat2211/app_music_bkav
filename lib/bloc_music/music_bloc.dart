@@ -1,13 +1,14 @@
 
 import 'dart:math';
 
-import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
-import 'package:app_music_bkav/Bloc_music/Music_State.dart';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:bloc/bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 
 import '../Model/music_model.dart';
+import 'music_event.dart';
+import 'music_state.dart';
 class BlocMusic extends Bloc<BlocEvent,BlocState>{
   List<MusicModel> _model = [];
   final AudioPlayer _audioPlayer=AudioPlayer(playerId: "Base");

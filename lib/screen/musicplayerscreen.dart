@@ -1,10 +1,8 @@
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/Bloc_music/Music_State.dart';
+import 'package:app_music_bkav/Bloc_favorites/favorite_bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/favorite_even.dart';
+
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:app_music_bkav/Widget/Image_music_shower.dart';
+import 'package:app_music_bkav/Widget/image_music_shower.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
@@ -13,6 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+import '../bloc_music/music_bloc.dart';
+import '../bloc_music/music_event.dart';
+import '../bloc_music/music_state.dart';
 
 class DetailPage extends StatefulWidget {
   final MusicModel model;

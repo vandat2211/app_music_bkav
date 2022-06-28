@@ -1,10 +1,8 @@
 
 import 'dart:typed_data';
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/Bloc_music/Music_State.dart';
-import 'package:app_music_bkav/ReponsiverWidget.dart';
+import 'package:app_music_bkav/reponsiverWidget.dart';
 import 'package:app_music_bkav/Widget/deltail.dart';
-import 'package:app_music_bkav/Widget/Button_PlayMedia.dart';
+import 'package:app_music_bkav/Widget/button_playmedia.dart';
 import 'package:app_music_bkav/Widget/list_song.dart';
 import 'package:app_music_bkav/Widget/list_songs.dart';
 import 'package:app_music_bkav/resource/Color_manager.dart';
@@ -14,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../bloc_music/music_bloc.dart';
+import '../bloc_music/music_state.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<MusicModel>? musics;
@@ -67,9 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }),
           tab: BlocBuilder<BlocMusic, BlocState>(builder: (context, state) {
-            final bool isFirstTouchToDetail = state.musicModel.title.isEmpty;
-            final Uint8List? imageOfMusic = state.musicModel.artworkWidget;
-
             return Row(
               children: <Widget>[
                 Container(

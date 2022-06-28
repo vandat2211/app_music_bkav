@@ -1,8 +1,6 @@
-import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/Bloc_music/Music_State.dart';
+
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:app_music_bkav/screen/MusicPlayerScreen.dart';
+import 'package:app_music_bkav/screen/musicplayerscreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +8,11 @@ import 'package:app_music_bkav/resource/Color_manager.dart';
 import 'package:app_music_bkav/Widget/custom_button_widge.dart';
 import 'package:app_music_bkav/timer_cubit.dart';
 import 'package:just_audio_background/just_audio_background.dart';
+import '../bloc_music/music_bloc.dart';
+import '../bloc_music/music_event.dart';
+import '../bloc_music/music_state.dart';
 import '../resource/Color_manager.dart';
-import 'custom_button_widge.dart';
+
 
 class ListButton extends StatefulWidget {
   final MusicModel currentPlayMusic;

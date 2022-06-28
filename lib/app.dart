@@ -1,7 +1,7 @@
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/screen/FavoriteScreen.dart';
-import 'package:app_music_bkav/screen/Home_screen.dart';
-import 'package:app_music_bkav/screen/SearchScreen.dart';
+
+import 'package:app_music_bkav/screen/favorite_screen.dart';
+import 'package:app_music_bkav/screen/home_screen.dart';
+import 'package:app_music_bkav/screen/search_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audiotagger/audiotagger.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,8 @@ import 'package:app_music_bkav/Model/music_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+
+import 'bloc_music/music_bloc.dart';
 
 class App extends StatefulWidget {
   @override
@@ -56,12 +58,12 @@ class _AppState extends State<App> {
   }
 
   final tabs = [
-    SearchScreen(
+    const SearchScreen(
       musics: [],
     ),
-    HomeScreen(
+    const HomeScreen(
     ),
-    FavoriteScreen(),
+    const FavoriteScreen(),
   ];
   @override
   Widget build(BuildContext context) {

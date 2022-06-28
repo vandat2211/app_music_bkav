@@ -1,21 +1,22 @@
 import 'dart:typed_data';
 
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Bloc.dart';
-import 'package:app_music_bkav/Bloc_favorites/Favorite_Even.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Event.dart';
-import 'package:app_music_bkav/Bloc_music/Music_Bloc.dart';
-import 'package:app_music_bkav/Bloc_music/Music_State.dart';
-import 'package:app_music_bkav/Database.dart';
+import 'package:app_music_bkav/Bloc_favorites/favorite_bloc.dart';
+import 'package:app_music_bkav/Bloc_favorites/favorite_even.dart';
+
+import 'package:app_music_bkav/database/database.dart';
 import 'package:app_music_bkav/Model/music_model.dart';
-import 'package:app_music_bkav/ReponsiverWidget.dart';
-import 'package:app_music_bkav/Widget/Image_music_shower.dart';
-import 'package:app_music_bkav/screen/MusicPlayerScreen.dart';
+import 'package:app_music_bkav/reponsiverWidget.dart';
+import 'package:app_music_bkav/Widget/image_music_shower.dart';
+import 'package:app_music_bkav/screen/musicplayerscreen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../bloc_music/music_bloc.dart';
+import '../bloc_music/music_event.dart';
+import '../bloc_music/music_state.dart';
 import '../resource/Color_manager.dart';
 import 'custom_button_widge.dart';
 
